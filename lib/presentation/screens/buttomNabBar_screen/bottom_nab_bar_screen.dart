@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constants/app_color.dart';
 import '../../controllers/bottom_nab_bar_controller.dart';
 
@@ -87,7 +88,7 @@ class BottomNavView extends StatelessWidget {
           SizedBox(height: 4.h),
           Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 12.sp,
               color: isActive ? AppColors.primary : Color(0xff616161),
               fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,

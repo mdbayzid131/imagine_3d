@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
@@ -46,10 +47,10 @@ class CustomTextField extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 6.h),
             child: Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xff333333),
+                color: const Color(0xff616161),
               ),
             ),
           ),
@@ -64,17 +65,18 @@ class CustomTextField extends StatelessWidget {
           keyboardType: keyboardType,
           onTap: onTap,
 
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 14.sp,
             color: const Color(0xff333333),
             fontWeight: FontWeight.w400,
+
           ),
 
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(
+            hintStyle: GoogleFonts.poppins(
               fontSize: 13.sp,
-              color: Colors.grey.shade600,
+              color: Color(0xff8A948A),
             ),
 
             contentPadding: EdgeInsets.symmetric(
@@ -85,19 +87,29 @@ class CustomTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
 
-            filled: true,
-            fillColor: const Color(0xffEDE8FC),
+            // filled: true,
+            // fillColor: const Color(0xffEDE8FC),
 
             /// ====== BORDER STATES ======
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(
+                color: Color(0xffC6CCC6),
+                width: 1.2,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.r),
+              borderSide: BorderSide(
+                color: Color(0xffC6CCC6),
+                width: 1.2,
+              ),
             ),
 
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: BorderSide(
-                color: Colors.orange,
+                color: Color(0xffC6CCC6),
                 width: 1.2,
               ),
             ),
@@ -116,7 +128,7 @@ class CustomTextField extends StatelessWidget {
               ),
             ),
 
-            errorStyle: TextStyle(
+            errorStyle: GoogleFonts.poppins(
               fontSize: 11.sp,
               color: Colors.red,
             ),

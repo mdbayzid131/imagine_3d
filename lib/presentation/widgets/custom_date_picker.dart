@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class CustomDatePickerField extends StatefulWidget {
@@ -47,7 +48,7 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
             padding: EdgeInsets.only(bottom: 6.h),
             child: Text(
               widget.label,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xff333333),
@@ -62,7 +63,7 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
           readOnly: true,
           onTap: () => _selectDate(context),
 
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 14.sp,
             color: const Color(0xff333333),
             fontWeight: FontWeight.w400,
@@ -70,7 +71,7 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
 
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: TextStyle(fontSize: 13.sp, color: Colors.grey.shade600),
+            hintStyle: GoogleFonts.poppins(fontSize: 13.sp, color: Colors.grey.shade600),
 
             contentPadding: EdgeInsets.symmetric(
               vertical: 14.h,
@@ -102,7 +103,7 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
               borderSide: BorderSide(color: Colors.red.shade600),
             ),
 
-            errorStyle: TextStyle(fontSize: 11.sp, color: Colors.red),
+            errorStyle: GoogleFonts.poppins(fontSize: 11.sp, color: Colors.red),
           ),
         ),
       ],

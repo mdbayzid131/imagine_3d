@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/constants/app_color.dart';
 
@@ -46,10 +47,10 @@ class CustomElevatedButton extends StatelessWidget {
       )
           : Text(
         label,
-        style: TextStyle(
-          color: Colors.black,
+        style: GoogleFonts.poppins(
+          color: Colors.white,
           fontWeight: FontWeight.w600,
-          fontSize: 18.sp,
+          fontSize: 16.sp,
           height: 1.4,
         ),
       ),

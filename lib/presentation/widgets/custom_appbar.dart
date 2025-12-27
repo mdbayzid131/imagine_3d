@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../core/constants/app_color.dart';
 
 class CustomWidgets{
   static AppBar customAppBar({required String title, Widget? leading, List<Widget>? action}) {
@@ -7,15 +10,15 @@ class CustomWidgets{
       centerTitle: true,
       title: Text(
         title,
-        style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
+        style: GoogleFonts.poppins(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w500,
             height: 1.4,
-            color: Color(0xff222222)
+            color: AppColors.textColor
         ),
       ),
       iconTheme: IconThemeData(
-        color: Color(0xff333333),
+        color: AppColors.caption,
         size: 20.sp,
       ),
       leading: leading,

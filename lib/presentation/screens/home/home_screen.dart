@@ -4,9 +4,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_color.dart';
 import '../../../routes/routes.dart';
+import '../../widgets/add_account_popup.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -31,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Total Balance",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
@@ -42,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 10.h),
                   Text(
                     "\$24,567.83",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w400,
@@ -52,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 92.h,
+                        width: 92.w,
                         height: 27.h,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.9),
@@ -61,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                         child: Center(
                           child: Text(
                             "4 Accounts",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               color: Color(0xff730E0E),
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
@@ -84,8 +86,8 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       "My Accounts",
-                      style: TextStyle(
-                        fontSize: 20.sp,
+                      style: GoogleFonts.poppins(
+                        fontSize: 22.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -122,15 +124,15 @@ class HomeScreen extends StatelessWidget {
                         ListTile(
                           title: Text(
                             "Credit Cards",
-                            style: TextStyle(
-                              fontSize: 18.sp,
+                            style: GoogleFonts.poppins(
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: AppColors.textColor,
                             ),
                           ),
                           subtitle: Text(
                             "2 accounts",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 14.0.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.caption,
@@ -141,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "\$6,441.29",
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -189,15 +191,15 @@ class HomeScreen extends StatelessWidget {
                         ListTile(
                           title: Text(
                             "Direct Investing",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: AppColors.textColor,
                             ),
                           ),
                           subtitle: Text(
                             "7 accounts",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 14.0.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.caption,
@@ -208,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "\$6,441.29",
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -275,26 +277,31 @@ class HomeScreen extends StatelessWidget {
 
 
                 SizedBox(height: 12.h),          ///<================ ADD ACCOUNTS & SERVICES =================>///
-                Container(
-                  height: 52.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_circle_outline,
-                          color: Colors.green, size: 22.sp),
-                      SizedBox(width: 8.w),
-                      Text(
-                        "Add Accounts and services",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () {
+                    AddAccountPopup.showPopup(context);
+                  },
+                  child: Container(
+                    height: 52.h,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.add_circle_outline,
+                            color: Colors.green, size: 22.sp),
+                        SizedBox(width: 8.w),
+                        Text(
+                          "Add Accounts and services",
+                          style: GoogleFonts.poppins(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
@@ -305,9 +312,9 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       "TD MySpend",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(width: 6.w),
@@ -336,8 +343,8 @@ class HomeScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         "Get TD MySpend For Your\nHomepage & stay on top of TD\naccount spending.",
-                        style: TextStyle(
-                          fontSize: 16.sp,
+                        style: GoogleFonts.poppins(
+                          fontSize: 18.sp,
                           height: 1.4,
                           fontWeight: FontWeight.w500,
 
@@ -360,7 +367,7 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     "Edit Home Screen",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.green,
@@ -400,19 +407,19 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 18.sp,
+                    style: GoogleFonts.poppins(
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Spacer(),
-                  const Icon(Icons.more_vert),
+                   Icon(Icons.more_vert,size: 22.sp,),
                 ],
               ),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 5.h),
             Divider(height: 1.h),
-            SizedBox(height: 8.h),
+            SizedBox(height: 5.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: Column(
@@ -422,7 +429,7 @@ class HomeScreen extends StatelessWidget {
                       Expanded(
                         child: Text(
                           name,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.primary,
@@ -431,7 +438,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       Text(
                         amount,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -443,9 +450,11 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         number,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 14.sp,
                           color: Color(0xff616161),
+                          fontWeight: FontWeight.w400,
+
                         ),
                       ),
                     ],
@@ -474,7 +483,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                   color: Colors.green,
@@ -483,14 +492,14 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 4.h),
               Text(
                 number,
-                style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
               ),
             ],
           ),
           const Spacer(),
           Text(
             amount,
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+            style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
           ),
         ],
       ),
