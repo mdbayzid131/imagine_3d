@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:imagine_3d/core/constants/app_color.dart';
+
+import '../../widgets/add_trensection_popup.dart';
+import '../../widgets/edit_account_name.dart';
+import '../../widgets/trensection_tapa_and_hold_popup.dart';
+import 'details_tab.dart';
+import 'manage_tab.dart';
 
 class CardDetailsPage extends StatelessWidget {
   const CardDetailsPage({super.key});
@@ -9,18 +17,13 @@ class CardDetailsPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF6F6F6),
         appBar: AppBar(
-          backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {},
-          ),
+
           title: Text(
             "Banking",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: Colors.black,
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
@@ -36,45 +39,49 @@ class CardDetailsPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Container(
-                padding: EdgeInsets.all(14.w),
+                width: double.infinity,
+                padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: const Color(0xFFFFFBEA),
                   borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: Colors.green, width: 1),
+                  border: Border.all(
+                    color: AppColors.primary,
+                    width: 1.2,
+                  ),
                 ),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "6644129",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            "TD ALL-INCLUSIVE BANKING PLAN",
-                            style: TextStyle(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Text(
-                            "\$6,733.32",
-                            style: TextStyle(
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      '6644129',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16.sp,
+                        color: AppColors.textColor,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Icon(Icons.more_vert, size: 20.sp),
+
+                    SizedBox(height: 6.h),
+
+                    Text(
+                      'TD All- Inclusive Banking Plan',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primary,
+                      ),
+                    ),
+
+                    SizedBox(height: 10.h),
+
+                    Text(
+                      '\$6,733.32',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w600,
+                        color:AppColors.textColor,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -84,13 +91,15 @@ class CardDetailsPage extends StatelessWidget {
 
             /// Tab Bar
             TabBar(
-              labelColor: Colors.green,
-              unselectedLabelColor: Colors.black,
-              indicatorColor: Colors.green,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: Color(0xff363636),
+              indicatorColor: AppColors.primary,
+              indicatorSize: TabBarIndicatorSize.label,
               indicatorWeight: 2,
-              labelStyle: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
+              dividerColor: Colors.transparent,
+              labelStyle: GoogleFonts.poppins(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w500,
               ),
               tabs: const [
                 Tab(text: "Activity"),
@@ -103,9 +112,9 @@ class CardDetailsPage extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  _activityTab(),
-                  const Center(child: Text("Details Page")),
-                  const Center(child: Text("Manage Page")),
+                  _activityTab(context),
+                  DetailsTab(),
+                  ManageAccountBody(),
                 ],
               ),
             ),
@@ -115,7 +124,7 @@ class CardDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _activityTab() {
+  Widget _activityTab(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16.w),
       child: Column(
@@ -127,14 +136,19 @@ class CardDetailsPage extends StatelessWidget {
             children: [
               Text(
                 "Transactions",
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
               ),
-              Text(
-                "+ Add",
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.green,
-                  fontWeight: FontWeight.w600,
+              GestureDetector(
+                onTap: () {
+                  AddTrensectionPopup.showPopup(context);
+                },
+                child: Text(
+                  "+ Add",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20.sp,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -147,10 +161,15 @@ class CardDetailsPage extends StatelessWidget {
             child: ListView(
               children: [
                 _dateLabel("Monday December 22, 2025"),
-                _transactionTile(
-                  title: "SAVE ON FOODS#_F",
-                  amount: "-\$15.00",
-                  balance: "\$6,488.32",
+                GestureDetector(
+                  onLongPress: () {
+                    TrensectionTapaAndHoldPopup.showPopup(context);
+                  },
+                  child: _transactionTile(
+                    title: "SAVE ON FOODS#_F",
+                    amount: "-\$15.00",
+                    balance: "\$6,488.32",
+                  ),
                 ),
                 _transactionTile(
                   title: "TESORO ITALIAN _ F",
@@ -184,7 +203,7 @@ class CardDetailsPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Text(
         text,
-        style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+        style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
       ),
     );
   }
@@ -200,6 +219,7 @@ class CardDetailsPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(color: Colors.black12),
       ),
       child: Row(
         children: [
@@ -209,7 +229,7 @@ class CardDetailsPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),
@@ -217,14 +237,14 @@ class CardDetailsPage extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   balance,
-                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                  style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
                 ),
               ],
             ),
           ),
           Text(
             amount,
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+            style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
           ),
         ],
       ),

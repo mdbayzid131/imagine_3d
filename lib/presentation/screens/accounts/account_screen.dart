@@ -19,7 +19,6 @@ class AccountsScreen extends StatelessWidget {
             accountNumber: '2545',
             balance: 535,
             balanceTitle: 'Checking',
-            iconColor: Color(0xffff0000),
           ),
           SizedBox(height: 20.h),
           SavingsCard(
@@ -41,18 +40,11 @@ class AccountsScreen extends StatelessWidget {
           SavingsCard(
             title: 'Chase Checking',
             accountNumber: '2545',
-            balance: 535,
+            balance: 200,
             balanceTitle: 'Checking',
             iconColor: Color(0xff4f32d5),
           ),
           SizedBox(height: 20.h),
-          SavingsCard(
-            title: 'Chase Checking',
-            accountNumber: '2545',
-            balance: 535,
-            balanceTitle: 'Checking',
-            iconColor: Color(0xff49ea00),
-          ),
         ],
       ),
     );

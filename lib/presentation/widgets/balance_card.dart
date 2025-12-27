@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../core/constants/app_color.dart';
+import '../screens/accounts/custom_account_details.dart';
 
 class SavingsCard extends StatelessWidget {
   final String title;
@@ -30,52 +36,51 @@ class SavingsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// Top Row
-          Row(
-            children: [
-              Container(
-                width: 40.w,
-                height: 40.w,
-                decoration: BoxDecoration(
-                  color: iconColor,
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
+          GestureDetector(
+            onTap: (){
+              Get.to(() => CustomAccountDetails(
+                accountName: title,
+                accountNumber: accountNumber,
+                balance: balance,
+              ));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      "****$accountNumber",
-                      style: TextStyle(fontSize: 12.sp, color: Colors.grey,fontWeight: FontWeight.w400),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Icon(Icons.chevron_right, size: 22.sp, color: Colors.grey),
-            ],
+                Icon(Icons.chevron_right, size: 22.sp, color: Colors.grey),
+              ],
+            ),
           ),
+          SizedBox(height: 10.h),
+
+          /// Account Number
+          Text(
+            "****$accountNumber",
+            style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey,fontWeight: FontWeight.w400),
+          ),
+
 
           SizedBox(height: 16.h),
 
           /// Balance
           Text(
             balanceTitle,
-            style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+            style: GoogleFonts.poppins(fontSize: 12.sp, color: AppColors.caption,fontWeight: FontWeight.w400),
           ),
           SizedBox(height: 4.h),
           Text(
             "\$${balance.toStringAsFixed(2)}",
-            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-          ),
+            style: GoogleFonts.poppins(fontSize: 24.sp, fontWeight: FontWeight.w400,color:AppColors.textColor),),
+
         ],
       ),
     );
