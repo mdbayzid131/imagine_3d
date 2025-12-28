@@ -1,13 +1,15 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import '../../../../routes/routes.dart';
-import '../../../core/constants/image_paths.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:imagine_3d/core/constants/image_paths.dart';
+import 'package:imagine_3d/presentation/screens/home/home_screen.dart';
+import '../../../core/constants/app_color.dart';
 import '../../controllers/auth_controller.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
+import '../buttomNabBar_screen/bottom_nab_bar_screen.dart';
+import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,20 +39,25 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 80.h),
 
               ///================= App Logo =========================///
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Image.asset(ImagePaths.giftZees, width: 218.w)],
+              Container(
+                height: 124.w,
+                width: 132.w,
+                decoration: BoxDecoration(color: const Color(0xff42B02B)),
+                child: Image.asset(
+                  ImagePaths.appLogo,
+                  height: 98.h,
+                  width: 112.w,
+                ),
               ),
-
               SizedBox(height: 24.h),
 
               ///================= Welcome Text =========================///
               Text(
-                "Welcome Back",
-                style: TextStyle(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xff19B23F),
+                "Good morning",
+                style: GoogleFonts.poppins(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textColor,
                 ),
               ),
 
@@ -102,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Get.toNamed(RoutePages.forgetPassword);
+                          Get.to(() => const ForgetPassword());
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -122,56 +129,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 24.h),
 
                     ///================= Login Button =========================///
-                    Obx(()=>
-                       CustomElevatedButton(
-                        isLoading: _authController.isLoading.value,
-
+                    CustomElevatedButton(
                         label: 'Login',
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _authController.login(
-                              email: emailController.text.trim(),
-                              password: passwordController.text, context: context,
-                            );
-                          }
+                          Get.to(() =>  BottomNavView());
                         },
                       ),
-                    ),
+
 
                     SizedBox(height: 16.h),
 
                     ///================= Sign Up Redirect =========================///
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don’t have an account?",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff333333),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(RoutePages.signUpScreen);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xffFD7839),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 30.h),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       "Don’t have an account?",
+                    //       style: TextStyle(
+                    //         fontSize: 12.sp,
+                    //         fontWeight: FontWeight.w400,
+                    //         color: const Color(0xff333333),
+                    //       ),
+                    //     ),
+                    //     InkWell(
+                    //       onTap: () {
+                    //
+                    //       },
+                    //       child: Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    //         child: Text(
+                    //           "Sign Up",
+                    //           style: TextStyle(
+                    //             fontSize: 14.sp,
+                    //             fontWeight: FontWeight.w600,
+                    //             color: const Color(0xffFD7839),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    //
+                    // SizedBox(height: 30.h),
                   ],
                 ),
               ),
@@ -182,4 +181,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-*/

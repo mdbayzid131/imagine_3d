@@ -1,16 +1,13 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
-import '../../../../routes/routes.dart';
-import '../../../core/constants/image_paths.dart';
 import '../../controllers/auth_controller.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
+import 'otp_verification_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -37,20 +34,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               SizedBox(height: 20.h),
 
               ///<================= App Logo =========================>///
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Image.asset(ImagePaths.giftZees, width: 218.w)],
-              ),
-
-              SizedBox(height: 24.h),
 
               ///<================= Illustration Image =========================>///
-              Image.asset(
-                ImagePaths.forgotPassword,
-                height: 189.h,
-                width: 175.w,
-              ),
-
               SizedBox(height: 24.h),
 
               ///<================= Title =========================>///
@@ -97,18 +82,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     SizedBox(height: 32.h),
 
                     ///<================= Submit Button =========================>///
-                    Obx(
-                      () => CustomElevatedButton(
-                        isLoading: _authController.isLoading.value,
-                        label: 'Send',
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _authController.forgotPassword(
-                              email: emailController.text.trim(),
-                            );
-                          }
-                        },
-                      ),
+                    CustomElevatedButton(
+                      label: 'Send',
+                      onPressed: () {
+                        Get.to(
+                          () => OtpVerificationScreen(
+                            email: emailController.text,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -122,4 +104,3 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 }
-*/

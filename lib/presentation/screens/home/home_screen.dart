@@ -54,17 +54,23 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 92.w,
-                        height: 27.h,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 5.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Color(0xFF099D09),
+                          border: Border.all(
+                            color: Color(0xFF64D021),
+                            width: 1,
+                          ),
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Center(
                           child: Text(
                             "4 Accounts",
                             style: GoogleFonts.poppins(
-                              color: Color(0xff730E0E),
+                              color: Color(0xFF88ED0D),
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                             ),
@@ -326,32 +332,44 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
 
                 ///<================ MYSPEND INFO =================>///
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 44.h,
-                      width: 44.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.green, width: 2),
-                      ),
-                      child: Icon(Icons.add,
-                          color: Colors.green, size: 28.sp),
-                    ),
-                    SizedBox(width: 14.w),
-                    Expanded(
-                      child: Text(
-                        "Get TD MySpend For Your\nHomepage & stay on top of TD\naccount spending.",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18.sp,
-                          height: 1.4,
-                          fontWeight: FontWeight.w500,
-
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFBEAEA),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 44.h,
+                        width: 44.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.green, width: 2),
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.green,
+                          size: 28.sp,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 14.w),
+                      Expanded(
+                        child: Text(
+                          "Get TD MySpend For Your\nHomepage & stay on top of TD\naccount spending.",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18.sp,
+                            height: 1.4,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: 20.h),

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             ),
             scaffoldBackgroundColor: Color(0xffffffff),
           ),
-          initialRoute: RoutePages.bottomNavBar,
+          initialRoute: RoutePages.loginScreen,
           getPages: pages,
           initialBinding: HomeBinding(),
         );
