@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../widgets/custom_appbar.dart';
+import '../../../widgets/custom_appbar.dart';
 
-class AvailableBalanceDetails extends StatelessWidget {
-  const AvailableBalanceDetails({super.key});
+class OverdraftLimitDetails extends StatelessWidget {
+  const OverdraftLimitDetails({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomWidgets.customAppBar(title: 'Available Balance Details'),
+      appBar: CustomWidgets.customAppBar(title: 'Overdraft Limit Details'),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -17,14 +17,14 @@ class AvailableBalanceDetails extends StatelessWidget {
           children: [
             SizedBox(height: 20.h),
             Text(
-              'Available Balance Details',
+              'Overdraft Limit Details',
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
             ),
 
             SizedBox(height: 20.h),
 
             _infoRow(
-              label: 'Current Balance :',
+              label: 'Current Limit :',
               value: '\$300.00',
               valueColor: Color(0xff363636),
             ),
@@ -32,7 +32,7 @@ class AvailableBalanceDetails extends StatelessWidget {
             SizedBox(height: 10.h),
 
             _infoRow(
-              label: 'Pending Transactions :',
+              label: 'Used :',
               value: '\$0.00',
               valueColor: Color(0xff363636),
             ),
@@ -40,27 +40,35 @@ class AvailableBalanceDetails extends StatelessWidget {
             SizedBox(height: 10.h),
 
             _infoRow(
-              label: 'Overdraft Limit :',
+              label: 'Available :',
               value: '\$300.00',
               valueColor: Colors.green,
             ),
 
             SizedBox(height: 14.h),
 
-
             Divider(color: Colors.grey.shade300),
-            _infoRow(
-              label: 'Available :',
-              value: '\$300.00',
-              valueColor: Colors.green,
-            ),
-
 
             SizedBox(height: 16.h),
 
+            Text(
+              'About Overdraft Protection',
+              style: GoogleFonts.poppins(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
 
+            SizedBox(height: 8.h),
 
-
+            Text(
+              'Your overdraft limit allows you to make transaction even when your account balance is insufficient. Interest will be charged on any overdraft balance at the agreed rate.',
+              style: GoogleFonts.poppins(
+                fontSize: 14.sp,
+                color: Color(0xff363636),
+                height: 1.5,
+              ),
+            ),
 
             SizedBox(height: 16.h),
 
@@ -68,9 +76,9 @@ class AvailableBalanceDetails extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(14.w),
               decoration: BoxDecoration(
-                color: const Color(0xFfEFF6FF),
+                color: const Color(0xFFFFFBEA),
                 borderRadius: BorderRadius.circular(10.r),
-                border: Border.all(width: 1, color: Color(0xffCFD8E9)),
+                border: Border.all(width: 1, color: Color(0xffF3E6C0)),
               ),
               child: RichText(
                 text: TextSpan(
@@ -85,15 +93,15 @@ class AvailableBalanceDetails extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 14.sp,
-                        color: Color(0xff6C28A8A),
+                        color: Color(0xff96690A),
                       ),
                     ),
                     TextSpan(
                       text:
-                      'OvYour available balance represents the amount you can currently spend,including your overdraft limit, minus pending transactions.',
+                          'Overdraft fees may apply. Please refer to your account agreement for details.',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff3A3793),
+                        color: Color(0xff65870A),
                         fontSize: 12.sp,
                       ),
                     ),
