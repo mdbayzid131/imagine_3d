@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../widgets/edit_account_name.dart';
-import '../../widgets/update_account_details.dart';
+import '../../../widgets/edit_account_name.dart';
+import '../../../widgets/update_account_details.dart';
 
 class ManageAccountBody extends StatelessWidget {
   const ManageAccountBody({super.key});

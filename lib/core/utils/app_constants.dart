@@ -7,6 +7,4 @@ class AppConstants{
   static String userId ="userId";
 
 
-
-
 }
