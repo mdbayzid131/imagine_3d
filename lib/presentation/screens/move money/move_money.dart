@@ -35,26 +35,26 @@ class MoveMoneyScreen extends StatelessWidget {
               _transactionTile(
                 title: "SAVE ON FOODS#_F",
                 amount: "-\$15.00",
-                balance: "\$6,488.32",
+                balance: "Chase Checking",
               ),
               _transactionTile(
                 title: "TESORO ITALIAN _ F",
                 amount: "-\$6.00",
-                balance: "\$6,488.32",
+                balance: "Chase Checking",
               ),
 
               _dateLabel("Friday December 19, 2025"),
               _transactionTile(
                 title: "STARBUCKS COFFE_F",
                 amount: "-\$15.00",
-                balance: "\$6,488.32",
+                balance: "Chase Checking",
               ),
 
               _dateLabel("Thursday December 18, 2025"),
               _transactionTile(
                 title: "SAVE ON FOODS#_F",
                 amount: "-\$15.00",
-                balance: "\$6,488.32",
+                balance: "Chase Checking",
               ),
             ],
           ),
@@ -86,6 +86,7 @@ Widget _transactionTile({
       border: Border.all(color: Colors.black12),
     ),
     child: Row(
+      crossAxisAlignment: .start,
       children: [
         Expanded(
           child: Column(

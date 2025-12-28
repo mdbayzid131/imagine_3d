@@ -1,4 +1,3 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,8 @@ import '../../../core/constants/image_paths.dart';
 import '../../../data/helper/time_formater.dart';
 import '../../controllers/auth_controller.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_text_field.dart';
+import 'new_password.dart';
 class OtpVerificationScreen extends StatefulWidget {
   final String email;
   const OtpVerificationScreen({super.key, required this.email});
@@ -20,17 +21,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController otpController = TextEditingController();
   final _authController = Get.find<AuthController>();
 
-  @override
-  void initState() {
-    _authController.startTimer();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _authController.startTimer();
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    _authController.dispostTimer();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _authController.dispostTimer();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,24 +48,24 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               SizedBox(height: 20.h),
 
               ///================= App Logo =========================///
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    ImagePaths.giftZees,
-                    width: 218.w,
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Image.asset(
+              //       ImagePaths.giftZees,
+              //       width: 218.w,
+              //     ),
+              //   ],
+              // ),
 
               SizedBox(height: 24.h),
 
               ///================= OTP Illustration =========================///
-              Image.asset(
-                ImagePaths.otpVerify,
-                height: 124.h,
-                width: 124.w,
-              ),
+              // Image.asset(
+              //   ImagePaths.otpVerify,
+              //   height: 124.h,
+              //   width: 124.w,
+              // ),
 
               SizedBox(height: 24.h),
 
@@ -95,70 +96,30 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
               SizedBox(height: 24.h),
 
-              ///================= OTP Form =========================///
-              Obx(
-                    () => Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
 
-                      ///================= OTP Input Field =========================///
-                      Pinput(
-                        length: 6,
-                        controller: otpController,
-                        defaultPinTheme: _defaultPinTheme(),
-                        focusedPinTheme: _focusedPinTheme(),
-                        errorPinTheme: _errorPinTheme(),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter OTP';
-                          }
-                          return null;
-                        },
-                      ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    ///<================= Email Text Field =========================>///
+                    CustomTextField(
+                      validator: _authController.validEmail,
+                      hintText: 'Enter your OTP',
+                      label: 'OTP',
 
-                      SizedBox(height: 12.h),
+                    ),
 
-                      ///================= Resend Section =========================///
-                      _authController.enableResent.value
-                          ? TextButton(
-                        onPressed: () {
-                          _authController.forgotPassword(email: widget.email);
-                          _authController.startTimer();
-                        },
-                        child: Text(
-                          'Resent OTP',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                      )
-                          : Text(
-                        'Resend in : ${formatTime(_authController.secondsRemaining.value)}',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff19B23F),
-                        ),
-                      ),
+                    SizedBox(height: 32.h),
 
-                      SizedBox(height: 32.h),
+                    ///<================= Submit Button =========================>///
+                    CustomElevatedButton(
+                      label: 'Send',
+                      onPressed: () {
+                        Get.to(() => const NewPassword());
 
-                      ///================= Submit Button =========================///
-                      CustomElevatedButton(
-                        label: 'Send',
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _authController.verifyEmailForForgotPassword(email: widget.email, oneTimeCode: int.parse(otpController.text));
-                          }
-                        },
-                      ),
-
-                      SizedBox(height: 20.h),
-                    ],
-                  ),
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -168,34 +129,5 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     );
   }
 
-  ///================= PIN THEMES =========================///
-  PinTheme _defaultPinTheme() => PinTheme(
-    width: 48.w,
-    height: 48.h,
-    textStyle: TextStyle(
-      fontSize: 15.sp,
-      color: const Color(0xff333333),
-    ),
-    decoration: BoxDecoration(
-      color: const Color(0xffEDE8FC),
-      borderRadius: BorderRadius.circular(10.r),
-    ),
-  );
 
-  PinTheme _focusedPinTheme() => _defaultPinTheme().copyWith(
-    decoration: BoxDecoration(
-      color: const Color(0xffEDE8FC),
-      borderRadius: BorderRadius.circular(10.r),
-      border: Border.all(color: AppColors.primary),
-    ),
-  );
-
-  PinTheme _errorPinTheme() => _defaultPinTheme().copyWith(
-    decoration: BoxDecoration(
-      color: const Color(0xffEDE8FC),
-      borderRadius: BorderRadius.circular(10.r),
-      border: Border.all(color: Colors.red),
-    ),
-  );
 }
-*/

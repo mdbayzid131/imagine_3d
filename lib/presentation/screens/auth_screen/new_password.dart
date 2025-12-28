@@ -1,4 +1,3 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +7,7 @@ import '../../../core/constants/image_paths.dart';
 import '../../controllers/auth_controller.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
+import 'login_screen.dart';
 
 class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
@@ -38,15 +38,6 @@ class _NewPasswordState extends State<NewPassword> {
               SizedBox(height: 20.h),
 
               ///================= App Logo =========================///
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    ImagePaths.giftZees,
-                    width: 218.w,
-                  ),
-                ],
-              ),
 
               SizedBox(height: 24.h),
 
@@ -121,8 +112,8 @@ class _NewPasswordState extends State<NewPassword> {
                           },
                           icon: Icon(
                             _authController.isConfirmPasswordVisible.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
                             color: const Color(0xff909090),
                             size: 18.sp,
                           ),
@@ -136,15 +127,10 @@ class _NewPasswordState extends State<NewPassword> {
 
                       ///================= Submit Button =========================///
                       CustomElevatedButton(
-                        label: 'Create New Password',
+                        label: 'Confirm',
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _authController.newPassword(
-                              newPassword: passwordController.text,
-                              confirmPassword: confirmPasswordController.text,
-                            );
+                          Get.to(() => ());
 
-                          }
                         },
                       ),
 
@@ -160,4 +146,3 @@ class _NewPasswordState extends State<NewPassword> {
     );
   }
 }
-*/
