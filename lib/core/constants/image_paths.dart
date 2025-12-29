@@ -9,7 +9,7 @@ class ImagePaths {
 
 
   ///<======================ImageIcon =======================>
-static String profilePic = "assets/dummy_image/img.png";
+static String profilePic = "profile_picture.png";
 static String appLogo = "assets/logos/appalogo.png";
 
 

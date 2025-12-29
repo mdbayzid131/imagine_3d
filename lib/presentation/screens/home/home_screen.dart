@@ -126,6 +126,8 @@ class HomeScreen extends StatelessWidget {
                   () => Container(
                     decoration: cardDecoration(),
                     child: Column(
+                      mainAxisAlignment: .end,
+                      crossAxisAlignment: .end,
                       children: [
                         ListTile(
                           title: Text(
@@ -154,6 +156,7 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                              SizedBox(width: 10.w,),
                               Icon(
                                 isExpanded.value
                                     ? Icons.keyboard_arrow_up
@@ -251,6 +254,7 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                              SizedBox(width: 10.w,),
                               Icon(
                                 isExpanded2.value
                                     ? Icons.keyboard_arrow_up

@@ -45,7 +45,7 @@ class CustomProfile extends StatelessWidget {
           Center(
             child: CircleAvatar(
               radius: (avatarSize / 2),
-              backgroundColor: Colors.grey.shade200,
+              backgroundColor: Colors.green,
               backgroundImage: imagePath.isEmpty
                   ? AssetImage(ImagePaths.profilePic)
                   : isNetworkImage

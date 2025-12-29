@@ -29,6 +29,7 @@ class MoveMoneyScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 40,),
             /// Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
