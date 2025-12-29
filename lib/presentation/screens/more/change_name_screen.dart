@@ -9,19 +9,16 @@ import '../../controllers/auth_controller.dart';
 import '../../widgets/custom_appbar.dart';
 
 class ChangeNameScreen extends StatelessWidget {
-   ChangeNameScreen({super.key});
+  ChangeNameScreen({super.key});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final AuthController authController = Get.find<AuthController>();
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomWidgets.customAppBar(title: 'User Information',),
+      appBar: CustomWidgets.customAppBar(title: 'User Information'),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Form(
@@ -29,17 +26,28 @@ class ChangeNameScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 20.h),
-              CustomTextField(hintText: 'Enter your name', label: 'Name',controller: _nameController,validator: authController.validName),
+              CustomTextField(
+                hintText: 'Enter your name',
+                label: 'Name',
+                controller: _nameController,
+                validator: authController.validName,
+              ),
               SizedBox(height: 20.h),
-              CustomTextField(hintText: 'Enter your email', label: 'Email',controller: _emailController,validator: authController.validEmail),
+              CustomTextField(
+                hintText: 'Enter your email',
+                label: 'Email',
+                controller: _emailController,
+                validator: authController.validEmail,
+              ),
               SizedBox(height: 20.h),
-              CustomElevatedButton(label: 'Save Changes', onPressed: (){
-                if (_formKey.currentState!.validate()) {
-                  Navigator.pop(context);
-                }
-              })
-
-
+              CustomElevatedButton(
+                label: 'Save Changes',
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pop(context);
+                  }
+                },
+              ),
             ],
           ),
         ),

@@ -93,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       "My Accounts",
                       style: GoogleFonts.poppins(
-                        fontSize: 22.sp,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -169,7 +169,7 @@ class HomeScreen extends StatelessWidget {
 
                         ///<================================== EXPANDED CONTENT ========================>///
                         if (isExpanded.value) ...[
-                          Divider(height: 1.h),
+                          Divider(height: 1.h, color: Colors.black12),
 
                           accountInnerCard(
                             name: "Visa Platinum",
@@ -180,6 +180,36 @@ class HomeScreen extends StatelessWidget {
                             name: "Mastercard Gold",
                             number: "6644130",
                             amount: "\$3,241.29",
+                          ),
+                          Divider(height: 1.h),
+                          GestureDetector(
+                            onTap: () {
+                              AddAccountPopup.showPopup(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    color: Colors.green,
+                                    size: 22.sp,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Text(
+                                    "Add Accounts ",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
 
@@ -198,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                           title: Text(
                             "Direct Investing",
                             style: GoogleFonts.poppins(
-                              fontSize: 18.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textColor,
                             ),
@@ -273,6 +303,36 @@ class HomeScreen extends StatelessWidget {
                             number: "6644130",
                             amount: "\$3,241.29",
                           ),
+                          Divider(height: 1.h),
+                          GestureDetector(
+                            onTap: () {
+                              AddAccountPopup.showPopup(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    color: Colors.green,
+                                    size: 22.sp,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Text(
+                                    "Add Accounts",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
 
                         ///<================================== END EXPANDED ========================>///
@@ -281,28 +341,29 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
+                SizedBox(height: 12.h),
 
-                SizedBox(height: 12.h),          ///<================ ADD ACCOUNTS & SERVICES =================>///
+                ///<================ ADD ACCOUNTS & SERVICES =================>///
                 GestureDetector(
                   onTap: () {
                     AddAccountPopup.showPopup(context);
                   },
                   child: Container(
                     height: 52.h,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
+                    decoration: cardDecoration(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_circle_outline,
-                            color: Colors.green, size: 22.sp),
+                        Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.green,
+                          size: 22.sp,
+                        ),
                         SizedBox(width: 8.w),
                         Text(
-                          "Add Accounts and services",
+                          "Add Accounts",
                           style: GoogleFonts.poppins(
-                            fontSize: 20.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -319,13 +380,12 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       "TD MySpend",
                       style: GoogleFonts.poppins(
-                        fontSize: 20.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(width: 6.w),
-                    Icon(Icons.chevron_right,
-                        color: Colors.green, size: 26.sp),
+                    Icon(Icons.chevron_right, color: Colors.green, size: 26.sp),
                   ],
                 ),
 
@@ -337,10 +397,7 @@ class HomeScreen extends StatelessWidget {
                     horizontal: 10.w,
                     vertical: 6.h,
                   ),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFBEAEA),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
+                  decoration: cardDecoration(),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -362,7 +419,7 @@ class HomeScreen extends StatelessWidget {
                         child: Text(
                           "Get TD MySpend For Your\nHomepage & stay on top of TD\naccount spending.",
                           style: GoogleFonts.poppins(
-                            fontSize: 18.sp,
+                            fontSize: 14.sp,
                             height: 1.4,
                             fontWeight: FontWeight.w500,
                           ),
@@ -386,7 +443,7 @@ class HomeScreen extends StatelessWidget {
                   child: Text(
                     "Edit Home Screen",
                     style: GoogleFonts.poppins(
-                      fontSize: 18.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.green,
                     ),
@@ -409,29 +466,26 @@ class HomeScreen extends StatelessWidget {
     bool isGreen = false,
   }) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Get.toNamed(RoutePages.cardDetailsPage);
-
       },
       child: Container(
         decoration: cardDecoration(),
-        padding: EdgeInsets.symmetric(vertical: 15.h),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.h),
+              padding: EdgeInsets.fromLTRB(15.h, 0, 0, 4),
               child: Row(
                 children: [
                   Text(
                     title,
                     style: GoogleFonts.poppins(
-                      fontSize: 22.sp,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const Spacer(),
-                   Icon(Icons.more_vert,size: 22.sp,),
                 ],
               ),
             ),
@@ -443,12 +497,13 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Text(
                           name,
                           style: GoogleFonts.poppins(
-                            fontSize: 20.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.primary,
                           ),
@@ -463,7 +518,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 6.h),
+                  SizedBox(height: 8.h),
                   Row(
                     children: [
                       Text(
@@ -472,7 +527,6 @@ class HomeScreen extends StatelessWidget {
                           fontSize: 14.sp,
                           color: Color(0xff616161),
                           fontWeight: FontWeight.w400,
-
                         ),
                       ),
                     ],
@@ -504,7 +558,7 @@ class HomeScreen extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  color: AppColors.textColor,
                 ),
               ),
               SizedBox(height: 4.h),
@@ -517,7 +571,11 @@ class HomeScreen extends StatelessWidget {
           const Spacer(),
           Text(
             amount,
-            style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
+            style: GoogleFonts.poppins(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primary,
+            ),
           ),
         ],
       ),

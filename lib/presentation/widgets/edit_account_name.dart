@@ -44,11 +44,12 @@ class DialogBody extends StatelessWidget {
 
             /// Bank Name
             CustomTextField(hintText: "Chase Checking", label: 'Account Name'),
-            SizedBox(height: 5.h),
+            SizedBox(height: 10.h),
             Text(
               'Optional: Name of your bank or financial institution',
               style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
             ),
+            SizedBox(height: 10.h),
 
             /// Buttons
             AddCancelButton(

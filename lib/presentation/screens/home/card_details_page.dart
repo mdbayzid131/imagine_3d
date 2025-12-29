@@ -5,6 +5,7 @@ import 'package:imagine_3d/core/constants/app_color.dart';
 import 'package:imagine_3d/presentation/screens/home/tabs/activity_tabs.dart';
 
 import '../../widgets/add_trensection_popup.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/edit_account_name.dart';
 import '../../widgets/trensection_tapa_and_hold_popup.dart';
 import 'tabs/details_tab.dart';
@@ -18,20 +19,7 @@ class CardDetailsPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-
-          title: Text(
-            "Banking",
-            style: GoogleFonts.poppins(
-              color: Colors.black,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-
+        appBar: CustomWidgets.customAppBar(title: "Banking"),
         body: Column(
           children: [
             SizedBox(height: 12.h),
