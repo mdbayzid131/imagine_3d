@@ -18,14 +18,18 @@ class CustomWidgets {
       // LEFT BACK BUTTON
       leading: GestureDetector(
         onTap: onBack ?? () => Get.back(),
-        child: Padding(
-          padding: EdgeInsets.all(8.w),
-          child: CircleAvatar(
-            backgroundColor: const Color(0xffF5F5F5),
-            child: Icon(
-              backIcon, // <-- dynamic icon used here
-              size: 18.sp,
-              color: Colors.grey.shade800,
+        child: SizedBox(
+          height: 40.w,
+          width: 40.w,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: const Color(0xffF5F5F5),
+              child: Icon(
+                backIcon, // <-- dynamic icon used here
+                size: 18.r,
+                color: Colors.grey.shade800,
+              ),
             ),
           ),
         ),

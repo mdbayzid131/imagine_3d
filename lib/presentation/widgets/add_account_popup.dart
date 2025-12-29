@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'add_cancle_buttom.dart';
 import 'custom_text_field.dart';
 
-
 class AddAccountPopup {
   /// Static method to trigger the popup correctly
   static Future<void> showPopup(BuildContext context) {
@@ -46,24 +45,42 @@ class DialogBody extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            /// Bank Name
-
-            CustomTextField(hintText: "Enter your bank name", label: 'Bank Name',),
+            /// Account Type
+            CustomTextField(
+              hintText: "Enter account type  name",
+              label: 'Account Type',
+            ),
 
             SizedBox(height: 12.h),
-            CustomTextField(hintText: "Type...", label: 'Amount',),
+
+            /// Bank Name
+            CustomTextField(
+              hintText: "Enter your bank name",
+              label: 'Bank Name',
+            ),
+
+            SizedBox(height: 12.h),
+            CustomTextField(hintText: "Type...", label: 'Amount'),
 
             /// Amount
-
             SizedBox(height: 12.h),
 
-            CustomTextField(hintText: "Type...", label: 'Account Number',),
-            /// Account Number
+            CustomTextField(hintText: "Type...", label: 'Account Number'),
 
+            /// Account Number
             SizedBox(height: 20.h),
 
             /// Buttons
-            AddCancelButton(cancelText: 'Cancel', addText: 'Add', cancelOnTap: () { Navigator.pop(context); }, addOnTap: () { Navigator.pop(context); },),
+            AddCancelButton(
+              cancelText: 'Cancel',
+              addText: 'Add',
+              cancelOnTap: () {
+                Navigator.pop(context);
+              },
+              addOnTap: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
