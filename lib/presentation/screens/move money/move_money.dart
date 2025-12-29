@@ -11,57 +11,73 @@ class MoveMoneyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomWidgets.customAppBar(title: 'Move Money'),
+      appBar: AppBar(
+        title: Text(
+          "Move Money",
+          style: GoogleFonts.poppins(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w500,
+            height: 1.4,
+            color: AppColors.textColor,
+          ),
+        ),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "All Transactions",
-                    style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "All Transactions",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
-              SizedBox(height: 12.h),
+            SizedBox(height: 12.h),
 
-              /// Transaction List
-              _dateLabel("Monday December 22, 2025"),
-              _transactionTile(
-                title: "SAVE ON FOODS#_F",
-                amount: "-\$15.00",
-                balance: "Chase Checking",
-              ),
-              _transactionTile(
-                title: "TESORO ITALIAN _ F",
-                amount: "-\$6.00",
-                balance: "Chase Checking",
-              ),
+            /// Transaction List
+            _dateLabel("Monday December 22, 2025"),
+            _transactionTile(
+              title: "SAVE ON FOODS#_F",
+              amount: "-\$15.00",
+              balance: "Chase Checking",
+            ),
+            _transactionTile(
+              title: "TESORO ITALIAN _ F",
+              amount: "-\$6.00",
+              balance: "Chase Checking",
+            ),
 
-              _dateLabel("Friday December 19, 2025"),
-              _transactionTile(
-                title: "STARBUCKS COFFE_F",
-                amount: "-\$15.00",
-                balance: "Chase Checking",
-              ),
+            _dateLabel("Friday December 19, 2025"),
+            _transactionTile(
+              title: "STARBUCKS COFFE_F",
+              amount: "-\$15.00",
+              balance: "Chase Checking",
+            ),
 
-              _dateLabel("Thursday December 18, 2025"),
-              _transactionTile(
-                title: "SAVE ON FOODS#_F",
-                amount: "-\$15.00",
-                balance: "Chase Checking",
-              ),
-            ],
-          ),
-      )
+            _dateLabel("Thursday December 18, 2025"),
+            _transactionTile(
+              title: "SAVE ON FOODS#_F",
+              amount: "-\$15.00",
+              balance: "Chase Checking",
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
 Widget _dateLabel(String text) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -109,7 +125,10 @@ Widget _transactionTile({
         ),
         Text(
           amount,
-          style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     ),

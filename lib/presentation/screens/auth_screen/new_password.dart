@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../routes/routes.dart';
+import '../../../core/constants/app_color.dart';
 import '../../../core/constants/image_paths.dart';
 import '../../controllers/auth_controller.dart';
+import '../../widgets/Custom_back_button.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
 import 'login_screen.dart';
@@ -26,44 +29,48 @@ class _NewPasswordState extends State<NewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.only(left: 18.w),
+          child: CustomBackButton(),
+        ),
+      ),
 
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
+            mainAxisAlignment: .start,
+            crossAxisAlignment: .start,
             children: [
 
               SizedBox(height: 20.h),
 
               ///================= App Logo =========================///
 
-              SizedBox(height: 24.h),
-
-              ///================= Title =========================///
+              ///<================= Title =========================>///
               Text(
-                "Create New Password",
-                style: TextStyle(
-                  fontSize: 18.sp,
+                'Create New Password',
+                style: GoogleFonts.poppins(
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xff1D1D1D),
+                  color: const Color(0xff333333),
+                  height: 1.3,
                 ),
-                textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 10.h),
+              SizedBox(height: 15.h),
 
-              ///================= Description =========================///
+              ///<================= Description =========================>///
               Text(
-                'Create a new password to secure your\naccount and continue. Your password should\nbe at least 8 characters.\nUse a mix of letters, numbers, and a symbol.',
-                style: TextStyle(
-                  fontSize: 12.sp,
+                'Your new password must be different from previous passwords.',
+                style: GoogleFonts.poppins(
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xff525050),
                   height: 1.4,
                 ),
-                textAlign: TextAlign.center,
               ),
 
               SizedBox(height: 24.h),
@@ -79,6 +86,11 @@ class _NewPasswordState extends State<NewPassword> {
                       CustomTextField(
                         obscureText:
                         _authController.isNewPasswordVisible.value,
+                        prefixIcon: Icon(
+                          Icons.lock_outline_rounded,
+                          color: AppColors.caption,
+                          size: 20.sp,
+                        ),
                         suffixIcon: IconButton(
                           onPressed: () {
                             _authController.isNewPasswordVisible.value =
@@ -86,8 +98,8 @@ class _NewPasswordState extends State<NewPassword> {
                           },
                           icon: Icon(
                             _authController.isNewPasswordVisible.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
                             color: const Color(0xff909090),
                             size: 18.sp,
                           ),
@@ -102,6 +114,11 @@ class _NewPasswordState extends State<NewPassword> {
                       ///================= Confirm Password =========================///
                       CustomTextField(
                         validator: _authController.validPassword,
+                        prefixIcon: Icon(
+                          Icons.lock_outline_rounded,
+                          color: AppColors.caption,
+                          size: 20.sp,
+                        ),
                         obscureText:
                         _authController.isConfirmPasswordVisible.value,
                         suffixIcon: IconButton(
@@ -119,7 +136,7 @@ class _NewPasswordState extends State<NewPassword> {
                           ),
                         ),
                         hintText: 'Enter confirm Password',
-                        label: 'Confirm your new password',
+                        label: 'Confirm password',
                         controller: confirmPasswordController,
                       ),
 
@@ -129,7 +146,7 @@ class _NewPasswordState extends State<NewPassword> {
                       CustomElevatedButton(
                         label: 'Confirm',
                         onPressed: () {
-                          Get.to(() => ());
+                          Get.to(() =>LoginScreen());
 
                         },
                       ),
