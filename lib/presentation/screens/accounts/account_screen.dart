@@ -17,13 +17,13 @@ class AccountsScreen extends StatelessWidget {
           Text(
             "Account",
             style: GoogleFonts.poppins(
-              fontSize: 30.sp,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w500,
               height: 1.4,
               color: AppColors.textColor,
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 40.h),
           SavingsCard(
             title: 'Chase Checking',
             accountNumber: '2545',

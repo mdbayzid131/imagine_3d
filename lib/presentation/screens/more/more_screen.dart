@@ -35,8 +35,8 @@ class MoreScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: 20.h),
-            Center(child: CustomProfile(imagePath: ImagePaths.profilePic)),
+            SizedBox(height: 40.h),
+            Center(child: CustomProfile(imagePath: ImagePaths.appLogo)),
             SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

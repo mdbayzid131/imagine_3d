@@ -29,7 +29,7 @@ class PasswordChangeScreen extends StatelessWidget {
           child: Obx(
             () => Column(
               children: [
-                SizedBox(height: 20.h),
+                SizedBox(height: 40.h),
                 CustomTextField(
                   hintText: 'Enter current password',
                   label: 'Current Password',

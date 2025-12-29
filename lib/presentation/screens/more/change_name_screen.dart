@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:imagine_3d/presentation/widgets/custom_elevated_button.dart';
 import 'package:imagine_3d/presentation/widgets/custom_text_field.dart';
-
 import '../../controllers/auth_controller.dart';
 import '../../widgets/custom_appbar.dart';
 
@@ -25,7 +24,7 @@ class ChangeNameScreen extends StatelessWidget {
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(height: 20.h),
+              SizedBox(height: 40.h),
               CustomTextField(
                 hintText: 'Enter your name',
                 label: 'Name',

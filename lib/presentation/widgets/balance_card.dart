@@ -37,12 +37,14 @@ class SavingsCard extends StatelessWidget {
         children: [
           /// Top Row
           GestureDetector(
-            onTap: (){
-              Get.to(() => CustomAccountDetails(
-                accountName: title,
-                accountNumber: accountNumber,
-                balance: balance,
-              ));
+            onTap: () {
+              Get.to(
+                () => CustomAccountDetails(
+                  accountName: title,
+                  accountNumber: accountNumber,
+                  balance: balance,
+                ),
+              );
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,22 +67,33 @@ class SavingsCard extends StatelessWidget {
           /// Account Number
           Text(
             "****$accountNumber",
-            style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey,fontWeight: FontWeight.w400),
+            style: GoogleFonts.poppins(
+              fontSize: 12.sp,
+              color: Colors.grey,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-
 
           SizedBox(height: 16.h),
 
           /// Balance
           Text(
             balanceTitle,
-            style: GoogleFonts.poppins(fontSize: 12.sp, color: AppColors.caption,fontWeight: FontWeight.w400),
+            style: GoogleFonts.poppins(
+              fontSize: 14.sp,
+              color: AppColors.caption,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           SizedBox(height: 4.h),
           Text(
             "\$${balance.toStringAsFixed(2)}",
-            style: GoogleFonts.poppins(fontSize: 24.sp, fontWeight: FontWeight.w400,color:AppColors.textColor),),
-
+            style: GoogleFonts.poppins(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w400,
+              color: AppColors.textColor,
+            ),
+          ),
         ],
       ),
     );
