@@ -21,7 +21,7 @@ class ChangeNameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomWidgets.customAppBar(title: 'User Information'),
+      appBar: CustomWidgets.customAppBar(title: 'User Information',),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Form(

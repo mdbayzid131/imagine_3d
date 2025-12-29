@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:imagine_3d/presentation/widgets/custom_appbar.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import '../../../core/constants/app_color.dart';
 import '../../widgets/balance_card.dart';
 
 class AccountsScreen extends StatelessWidget {
@@ -13,7 +13,17 @@ class AccountsScreen extends StatelessWidget {
       padding: EdgeInsets.all(20.h),
       child: Column(
         children: [
-          CustomWidgets.customAppBar(title: 'Account'),
+          SizedBox(height: 20.h),
+          Text(
+            "Account",
+            style: GoogleFonts.poppins(
+              fontSize: 30.sp,
+              fontWeight: FontWeight.w500,
+              height: 1.4,
+              color: AppColors.textColor,
+            ),
+          ),
+          SizedBox(height: 20.h),
           SavingsCard(
             title: 'Chase Checking',
             accountNumber: '2545',

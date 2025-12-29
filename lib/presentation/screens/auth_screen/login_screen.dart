@@ -26,13 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _authController = Get.find<AuthController>();
 
+  RxBool isChecked = false.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -74,6 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Enter your email',
                       label: 'Email',
                       controller: emailController,
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: AppColors.caption,
+                        size: 20.sp,
+                      ),
                     ),
 
                     SizedBox(height: 16.h),
@@ -83,6 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       () => CustomTextField(
                         validator: _authController.validPassword,
                         obscureText: _authController.isPasswordVisible.value,
+                        prefixIcon: Icon(
+                          Icons.lock_outline_rounded,
+                          color: AppColors.caption,
+                          size: 20.sp,
+                        ),
                         suffixIcon: IconButton(
                           onPressed: () {
                             _authController.isPasswordVisible.value =
@@ -90,8 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           icon: Icon(
                             _authController.isPasswordVisible.value
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
                             color: const Color(0xff909090),
                             size: 18.sp,
                           ),
@@ -105,37 +117,68 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 8.h),
 
                     ///================= Forgot Password =========================///
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(() => const ForgetPassword());
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Obx(
+                              () => Checkbox(
+                                checkColor: Colors.grey,
+                                activeColor: AppColors.primary,
+                                value: isChecked.value,
+                                onChanged: (va) {
+                                  isChecked.value = va!;
+                                },
+                              ),
+                            ),
+
+                            Text(
+                              "Remember me",
+                              style: GoogleFonts.poppins(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.textColor,
+                              ),
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xffFD7839),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => const ForgetPassword());
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Forget password?',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xff00A651),
+                                ),
+                              ),
+                              SizedBox(height: 2.h),
+                              Container(
+                                height: 1.5.h,
+                                width: 110.w,
+                                color: const Color(0xff00A651),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
+                      ],
                     ),
 
                     SizedBox(height: 24.h),
 
                     ///================= Login Button =========================///
                     CustomElevatedButton(
-                        label: 'Login',
-                        onPressed: () {
-                          Get.to(() =>  BottomNavView());
-                        },
-                      ),
-
+                      label: 'Login',
+                      onPressed: () {
+                        Get.to(() => BottomNavView());
+                      },
+                    ),
 
                     SizedBox(height: 16.h),
 

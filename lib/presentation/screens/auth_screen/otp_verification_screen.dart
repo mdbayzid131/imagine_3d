@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pinput/pinput.dart';
-import '../../../../routes/routes.dart';
-import '../../../core/constants/app_color.dart';
-import '../../../core/constants/image_paths.dart';
-import '../../../data/helper/time_formater.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../controllers/auth_controller.dart';
+import '../../widgets/Custom_back_button.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
 import 'new_password.dart';
+
 class OtpVerificationScreen extends StatefulWidget {
   final String email;
   const OtpVerificationScreen({super.key, required this.email});
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
+
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController otpController = TextEditingController();
@@ -36,66 +35,47 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.only(left: 18.w),
+          child: CustomBackButton(),
+        ),
+      ),
 
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
+            mainAxisAlignment: .start,
+            crossAxisAlignment: .start,
             children: [
-
-              SizedBox(height: 20.h),
-
-              ///================= App Logo =========================///
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Image.asset(
-              //       ImagePaths.giftZees,
-              //       width: 218.w,
-              //     ),
-              //   ],
-              // ),
-
-              SizedBox(height: 24.h),
-
-              ///================= OTP Illustration =========================///
-              // Image.asset(
-              //   ImagePaths.otpVerify,
-              //   height: 124.h,
-              //   width: 124.w,
-              // ),
-
-              SizedBox(height: 24.h),
-
-              ///================= Title =========================///
+              SizedBox(height: 25.h),
+              ///<================= Title =========================>///
               Text(
-                'One-Time Password Verification',
-                style: TextStyle(
-                  fontSize: 18.sp,
+                'Check your Email',
+                style: GoogleFonts.poppins(
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xff1D1D1D),
+                  color: const Color(0xff333333),
+                  height: 1.3,
                 ),
-                textAlign: TextAlign.center,
               ),
 
               SizedBox(height: 15.h),
 
-              ///================= Description =========================///
+              ///<================= Description =========================>///
               Text(
-                'A verification code has been sent to\nyour registered email/phone. Enter\nbelow to proceed.',
-                style: TextStyle(
-                  fontSize: 12.sp,
+                'we send a verification code Please Check your e-mail.',
+                style: GoogleFonts.poppins(
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xff525050),
                   height: 1.4,
                 ),
-                textAlign: TextAlign.center,
               ),
 
               SizedBox(height: 24.h),
-
 
               Form(
                 key: _formKey,
@@ -106,7 +86,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       validator: _authController.validEmail,
                       hintText: 'Enter your OTP',
                       label: 'OTP',
-
                     ),
 
                     SizedBox(height: 32.h),
@@ -116,7 +95,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       label: 'Send',
                       onPressed: () {
                         Get.to(() => const NewPassword());
-
                       },
                     ),
                   ],
@@ -128,6 +106,4 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ),
     );
   }
-
-
 }

@@ -23,7 +23,7 @@ class CustomAccountDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: CustomWidgets.customAppBar(title: 'Account'),
+      appBar: CustomWidgets.customAppBar(title: 'Account',),
       body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
               horizontal: 20
