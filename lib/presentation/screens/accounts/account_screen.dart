@@ -10,10 +10,10 @@ class AccountsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(20.h),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60.h),
       child: Column(
         children: [
-          SizedBox(height: 20.h),
+          SizedBox(height: 30.h),
           Text(
             "Account",
             style: GoogleFonts.poppins(

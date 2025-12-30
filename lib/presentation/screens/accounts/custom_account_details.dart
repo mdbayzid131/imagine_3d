@@ -25,10 +25,9 @@ class CustomAccountDetails extends StatelessWidget {
     return Scaffold(
       appBar: CustomWidgets.customAppBar(title: 'Account'),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 20.w),
         child: Column(
           children: [
-            SizedBox(height: 40.h),
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(

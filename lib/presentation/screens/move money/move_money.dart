@@ -25,11 +25,11 @@ class MoveMoneyScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 40,),
+            SizedBox(height: 10.h,),
             /// Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
