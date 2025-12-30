@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(color: AppColors.primary),
-            padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
+            padding: EdgeInsets.fromLTRB(20.w, 20.w, 20.w, 20.w),
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                           subtitle: Text(
                             "2 accounts",
                             style: GoogleFonts.poppins(
-                              fontSize: 14.0.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.caption,
                             ),
@@ -231,7 +231,7 @@ class HomeScreen extends StatelessWidget {
                           title: Text(
                             "Direct Investing",
                             style: GoogleFonts.poppins(
-                              fontSize: 16.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textColor,
                             ),
@@ -239,7 +239,7 @@ class HomeScreen extends StatelessWidget {
                           subtitle: Text(
                             "7 accounts",
                             style: GoogleFonts.poppins(
-                              fontSize: 14.0.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.caption,
                             ),
@@ -453,6 +453,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 60.h),
+
               ],
             ),
           ),
