@@ -30,39 +30,41 @@ class DialogBody extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Title
-            Text(
-              " Edit Account Name",
-              style: GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Title
+              Text(
+                " Edit Account Name",
+                style: GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.bold),
+              ),
 
-            SizedBox(height: 16.h),
+              SizedBox(height: 16.h),
 
-            /// Bank Name
-            CustomTextField(hintText: "Chase Checking", label: 'Account Name'),
-            SizedBox(height: 10.h),
-            Text(
-              'Optional: Name of your bank or financial institution',
-              style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-            ),
-            SizedBox(height: 10.h),
+              /// Bank Name
+              CustomTextField(hintText: "Chase Checking", label: 'Account Name'),
+              SizedBox(height: 10.h),
+              Text(
+                'Optional: Name of your bank or financial institution',
+                style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
+              ),
+              SizedBox(height: 10.h),
 
-            /// Buttons
-            AddCancelButton(
-              cancelText: 'Cancel',
-              addText: 'Update Details',
-              cancelOnTap: () {
-                Navigator.pop(context);
-              },
-              addOnTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              /// Buttons
+              AddCancelButton(
+                cancelText: 'Cancel',
+                addText: 'Update Details',
+                cancelOnTap: () {
+                  Navigator.pop(context);
+                },
+                addOnTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -30,58 +30,60 @@ class DialogBody extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Title
-            Text(
-              "Add Account",
-              style: GoogleFonts.poppins(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Title
+              Text(
+                "Add Account",
+                style: GoogleFonts.poppins(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
 
-            SizedBox(height: 16.h),
+              SizedBox(height: 16.h),
 
-            /// Account Type
-            CustomTextField(
-              hintText: "Enter account type  name",
-              label: 'Account Type',
-            ),
+              /// Account Type
+              CustomTextField(
+                hintText: "Enter account type  name",
+                label: 'Account Type',
+              ),
 
-            SizedBox(height: 12.h),
+              SizedBox(height: 12.h),
 
-            /// Bank Name
-            CustomTextField(
-              hintText: "Enter your bank name",
-              label: 'Bank Name',
-            ),
+              /// Bank Name
+              CustomTextField(
+                hintText: "Enter your bank name",
+                label: 'Bank Name',
+              ),
 
-            SizedBox(height: 12.h),
-            CustomTextField(hintText: "Type...", label: 'Amount'),
+              SizedBox(height: 12.h),
+              CustomTextField(hintText: "Type...", label: 'Amount'),
 
-            /// Amount
-            SizedBox(height: 12.h),
+              /// Amount
+              SizedBox(height: 12.h),
 
-            CustomTextField(hintText: "Type...", label: 'Account Number'),
+              CustomTextField(hintText: "Type...", label: 'Account Number'),
 
-            /// Account Number
-            SizedBox(height: 20.h),
+              /// Account Number
+              SizedBox(height: 20.h),
 
-            /// Buttons
-            AddCancelButton(
-              cancelText: 'Cancel',
-              addText: 'Add',
-              cancelOnTap: () {
-                Navigator.pop(context);
-              },
-              addOnTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              /// Buttons
+              AddCancelButton(
+                cancelText: 'Cancel',
+                addText: 'Add',
+                cancelOnTap: () {
+                  Navigator.pop(context);
+                },
+                addOnTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
