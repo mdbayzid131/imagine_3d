@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                           child: Text(
                             "4 Accounts",
                             style: GoogleFonts.poppins(
-                              color: Color(0xFF88ED0D),
+                              color: Colors.white,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                             ),
@@ -156,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(width: 10.w,),
+                              SizedBox(width: 10.w),
                               Icon(
                                 isExpanded.value
                                     ? Icons.keyboard_arrow_up
@@ -206,7 +206,7 @@ class HomeScreen extends StatelessWidget {
                                   Text(
                                     "Add Accounts ",
                                     style: GoogleFonts.poppins(
-                                      fontSize: 16.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -254,7 +254,7 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(width: 10.w,),
+                              SizedBox(width: 10.w),
                               Icon(
                                 isExpanded2.value
                                     ? Icons.keyboard_arrow_up
@@ -329,7 +329,7 @@ class HomeScreen extends StatelessWidget {
                                   Text(
                                     "Add Accounts",
                                     style: GoogleFonts.poppins(
-                                      fontSize: 16.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -454,7 +454,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 60.h),
-
               ],
             ),
           ),
@@ -555,6 +554,7 @@ class HomeScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
       child: Row(
+        crossAxisAlignment: .start,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -564,7 +564,7 @@ class HomeScreen extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.textColor,
+                  color: AppColors.primary,
                 ),
               ),
               SizedBox(height: 4.h),

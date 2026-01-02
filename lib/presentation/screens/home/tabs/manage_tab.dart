@@ -12,67 +12,69 @@ class ManageAccountBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          /// Title
-          Text(
-            "Manage Account",
-            style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
-          ),
-
-          SizedBox(height: 20.h),
-
-          /// Edit Account Name
-          _settingsTile(
-            icon: Icons.edit_outlined,
-            title: "Edit Account Name",
-            subtitle: "Change your account display name",
-            onTap: () {
-              EditAccountName.showPopup(context);
-            },
-          ),
-
-          SizedBox(height: 12.h),
-
-          /// Update Account Details
-          _settingsTile(
-            icon: Icons.edit_outlined,
-            title: "Update Account Details",
-            subtitle: "Modify routing or account number",
-            onTap: () {
-              UpdateAccountDetails.showPopup(context);
-            },
-          ),
-
-          SizedBox(height: 24.h),
-
-          /// Danger Zone
-          Text(
-            "DANGER ZONE",
-            style: GoogleFonts.poppins(
-              fontSize: 12.sp,
-              color: Colors.grey,
-              letterSpacing: 0.8,
+            /// Title
+            Text(
+              "Manage Account",
+              style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
             ),
-          ),
 
-          SizedBox(height: 12.h),
+            SizedBox(height: 20.h),
 
-          /// Remove Account
-          _settingsTile(
-            icon: Icons.delete_outline,
-            title: "Remove Account",
-            subtitle: "Permanently delete this account",
-            titleColor: Colors.red,
-            iconColor: Colors.red,
-            onTap: () {
-              // Handle remove account action
+            /// Edit Account Name
+            _settingsTile(
+              icon: Icons.edit_outlined,
+              title: "Edit Account Name",
+              subtitle: "Change your account display name",
+              onTap: () {
+                EditAccountName.showPopup(context);
+              },
+            ),
 
-            },
-          ),
-        ],
+            SizedBox(height: 12.h),
+
+            /// Update Account Details
+            _settingsTile(
+              icon: Icons.edit_outlined,
+              title: "Update Account Details",
+              subtitle: "Modify routing or account number",
+              onTap: () {
+                UpdateAccountDetails.showPopup(context);
+              },
+            ),
+
+            SizedBox(height: 24.h),
+
+            /// Danger Zone
+            Text(
+              "DANGER ZONE",
+              style: GoogleFonts.poppins(
+                fontSize: 12.sp,
+                color: Colors.grey,
+                letterSpacing: 0.8,
+              ),
+            ),
+
+            SizedBox(height: 12.h),
+
+            /// Remove Account
+            _settingsTile(
+              icon: Icons.delete_outline,
+              title: "Remove Account",
+              subtitle: "Permanently delete this account",
+              titleColor: Colors.red,
+              iconColor: Colors.red,
+              onTap: () {
+                // Handle remove account action
+
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
