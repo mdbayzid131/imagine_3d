@@ -16,11 +16,13 @@ class ManageAccountBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// Title
             Text(
               "Manage Account",
-              style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
 
             SizedBox(height: 20.h),
@@ -70,7 +72,6 @@ class ManageAccountBody extends StatelessWidget {
               iconColor: Colors.red,
               onTap: () {
                 // Handle remove account action
-
               },
             ),
           ],
@@ -102,7 +103,6 @@ class ManageAccountBody extends StatelessWidget {
               blurRadius: 1.r,
               offset: Offset(0, 2.h),
             ),
-
           ],
         ),
         child: Row(

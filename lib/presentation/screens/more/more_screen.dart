@@ -186,7 +186,7 @@ class _SettingsTile extends StatelessWidget {
             ),
             Icon(Icons.chevron_right, color: AppColors.caption, size: 20.sp),
           ],
-        ),
+        )
       ),
     );
   }
