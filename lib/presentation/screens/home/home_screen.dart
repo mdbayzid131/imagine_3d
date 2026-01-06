@@ -58,10 +58,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Color(0xFF099D09),
-                        border: Border.all(
-                          color: Color(0xFF64D021),
-                          width: 1,
-                        ),
+                        border: Border.all(color: Color(0xFF64D021), width: 1),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Center(
@@ -102,12 +99,50 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 10.h),
 
                   ///<================================== CARD 1 ========================>///
-                  accountCard(
-                    title: "Banking",
-                    name: "TD All-Inclusive\nBanking Plan",
-                    number: "6644129",
-                    amount: "\$6,441.29",
-                    isGreen: true,
+                  ListView.builder(
+                    itemBuilder: (context, index) {
+                      SizedBox(height: 12.h);
+                      return accountCard(
+                        title: "Banking",
+                        name: "TD All-Inclusive\nBanking Plan",
+                        number: "6644129",
+                        amount: "\$6,441.29",
+                        isGreen: true,
+                      );
+                    },
+                    itemCount: 1,
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  GestureDetector(
+                    onTap: () {
+                      AddAccountPopup.showPopup(context);
+                    },
+                    child: Container(
+                      height: 52.h,
+                      decoration: cardDecoration(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add_circle_outline,
+                            color: Colors.green,
+                            size: 22.sp,
+                          ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "Add Accounts",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    ///<================ ADD ACCOUNTS & SERVICES =================>///
                   ),
                   SizedBox(height: 12.h),
 
