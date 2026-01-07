@@ -12,6 +12,7 @@ import '../../../data/models/account_group_model.dart';
 import '../../../routes/routes.dart';
 import '../../controllers/homepgeController.dart';
 import '../../widgets/add_account_popup.dart';
+import '../../widgets/custom_elevated_button.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -33,6 +34,38 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.all(16.w),
               itemCount: controller.accountGroups.length,
               itemBuilder: (context, index) {
+                // if (index == controller.accountGroups.length) {
+                //   // return GestureDetector(
+                //   //   onTap: () {
+                //   //     AddAccountPopup.showPopup(context);
+                //   //   },
+                //   //   child: Padding(
+                //   //     padding: const EdgeInsets.symmetric(
+                //   //       horizontal: 10,
+                //   //       vertical: 8,
+                //   //     ),
+                //   //     child: Row(
+                //   //       mainAxisAlignment: MainAxisAlignment.center,
+                //   //       children: [
+                //   //         Icon(
+                //   //           Icons.add_circle_outline,
+                //   //           color: Colors.green,
+                //   //           size: 22.sp,
+                //   //         ),
+                //   //         SizedBox(width: 8.w),
+                //   //         Text(
+                //   //           "Add Accounts",
+                //   //           style: GoogleFonts.poppins(
+                //   //             fontSize: 18.sp,
+                //   //             fontWeight: FontWeight.w500,
+                //   //           ),
+                //   //         ),
+                //   //       ],
+                //   //     ),
+                //   //   ),
+                //   // );
+                //   return CustomElevatedButton(label: 'Add Accounts', onPressed: () {  },);
+                // }
                 final group = controller.accountGroups[index];
                 return Column(
                   children: [
@@ -174,7 +207,7 @@ class HomeScreen extends StatelessWidget {
               Divider(height: .5.h, color: Colors.black12),
               GestureDetector(
                 onTap: () {
-                  AddAccountPopup.showPopup(context);
+                  AddAccountPopup.showPopup(context: context, accountType:group.title, accountIndex: index);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

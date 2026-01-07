@@ -1,13 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AccountGroup {
+  final String id;
   final String title;
+  final int order;
+
+
+
 
   final List<AccountItem> accounts;
 
-  AccountGroup({required this.title, required this.accounts});
+  AccountGroup({required this.title, required this.accounts, required this.order, required this.id});
 
-  factory AccountGroup.fromMap(Map<String, dynamic> map) {
+  factory AccountGroup.fromMap(DocumentSnapshot doc) {
+    final map = doc.data() as Map<String, dynamic>;
     return AccountGroup(
+        id: doc.id,
       title: map['title'] ?? '',
+      order: map['order'] ?? 0,
 
       accounts: (map['accounts'] as List<dynamic>? ?? [])
           .map((e) => AccountItem.fromMap(e))
@@ -27,7 +37,8 @@ class AccountItem {
     return AccountItem(
       name: (map['name'] ?? '').toString(),
       number: (map['number'] ?? '').toString(),
-      amount: (map['amount'] ?? 0).toDouble(),
+      amount: double.parse(map['amount'].toString()),
+
     );
   }
 }

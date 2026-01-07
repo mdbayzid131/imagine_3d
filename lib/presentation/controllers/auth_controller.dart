@@ -26,6 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/constants/app_constants.dart';
 import '../../services/auth_service.dart';
 import '../screens/buttomNabBar_screen/bottom_nab_bar_screen.dart';
+import '../widgets/custom_snackbar.dart';
 
 class AuthController extends GetxController {
   final AuthService _authService = AuthService();
@@ -33,10 +34,6 @@ class AuthController extends GetxController {
   RxBool isLoading = false.obs;
 
   Future<void> login(String email, String password) async {
-    if (email.isEmpty || password.length < 6) {
-      Get.snackbar('Error', 'Invalid email or password');
-      return;
-    }
 
     try {
       isLoading.value = true;
@@ -53,26 +50,22 @@ class AuthController extends GetxController {
       await prefs.setString(AppConstants.userId, uid);
 
       Get.offAll(BottomNavView());
-      Get.snackbar('Success', 'Login successful');
+      CustomSnackbar.showSuccess('Success', 'Login successful');
     } catch (e) {
-      Get.snackbar('Login Failed', e.toString());
+      CustomSnackbar.showError('Login Failed', 'Invalid email or password');
     } finally {
       isLoading.value = false;
     }
   }
 
   Future<void> forgotPassword(String email) async {
-    if (!GetUtils.isEmail(email)) {
-      Get.snackbar('Error', 'Please enter a valid email');
-      return;
-    }
 
     try {
       isLoading.value = true;
       await _authService.resetPassword(email.trim());
-      Get.snackbar('Success', 'Password reset email sent. Check your inbox.');
+      CustomSnackbar.showSuccess('Success', 'Password reset email sent. Check your inbox.');
     } catch (e) {
-      Get.snackbar('Failed', e.toString());
+      CustomSnackbar.showError('Failed', 'Failed to send password reset email.');
     } finally {
       isLoading.value = false;
     }
@@ -678,23 +671,10 @@ class AuthController extends GetxController {
   // ------------------------------------------------------------------
   // 🔥 PHONE VALIDATION
   // ------------------------------------------------------------------
-  String? validPhone(String? value) {
+  String? validAccountNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter phone number";
+      return "Enter Account number";
     }
-
-    final phone = value.trim();
-
-    // must be numbers only
-    if (!RegExp(r'^[0-9]+$').hasMatch(phone)) {
-      return "Phone number must be digits only";
-    }
-
-    // BD number length check
-    if (phone.length < 10 || phone.length > 14) {
-      return "Phone number is not valid";
-    }
-
     return null;
   }
 
@@ -737,6 +717,38 @@ class AuthController extends GetxController {
     }
     return null;
   }
+
+
+
+
+
+  String? amountValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Amount is required';
+    }
+
+    final cleaned = value.trim();
+
+    // only number with optional 2 decimal
+    final regex = RegExp(r'^\d+(\.\d{1,2})?$');
+
+    if (!regex.hasMatch(cleaned)) {
+      return 'Enter a valid amount';
+    }
+
+    final amount = double.tryParse(cleaned);
+
+    if (amount == null) {
+      return 'Invalid number format';
+    }
+
+    if (amount <= 0) {
+      return 'Amount must be greater than 0';
+    }
+
+    return null; // ✅ valid
+  }
+
 
   //
   //   // ------------------------------------------------------------------
