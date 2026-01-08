@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../controllers/account_details_controller.dart';
+import '../../../controllers/homepgeController.dart';
 import '../../../widgets/edit_account_name.dart';
+import '../../../widgets/remove_account_popup.dart';
 import '../../../widgets/update_account_details.dart';
 
 class ManageAccountBody extends StatelessWidget {
-  const ManageAccountBody({super.key});
+  final String groupID;
+  final int accountIndex;
+  ManageAccountBody({
+    super.key,
+    required this.groupID,
+    required this.accountIndex,
+  });
+  final controller = Get.put(AccountController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +28,13 @@ class ManageAccountBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// Title
             Text(
               "Manage Account",
-              style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
 
             SizedBox(height: 20.h),
@@ -31,7 +45,9 @@ class ManageAccountBody extends StatelessWidget {
               title: "Edit Account Name",
               subtitle: "Change your account display name",
               onTap: () {
-                EditAccountName.showPopup(context);
+                EditAccountName.showPopup(
+                  context: context, groupID: groupID, accountIndex: accountIndex,
+                );
               },
             ),
 
@@ -43,7 +59,7 @@ class ManageAccountBody extends StatelessWidget {
               title: "Update Account Details",
               subtitle: "Modify routing or account number",
               onTap: () {
-                UpdateAccountDetails.showPopup(context);
+                UpdateAccountDetails.showPopup(context: context, groupId: groupID, accountIndex: accountIndex);
               },
             ),
 
@@ -69,8 +85,15 @@ class ManageAccountBody extends StatelessWidget {
               titleColor: Colors.red,
               iconColor: Colors.red,
               onTap: () {
-                // Handle remove account action
-
+                RemoveAccountPopup.show(
+                  context: context,
+                  onConfirm: () {
+                    controller.deleteAccount(
+                      groupId: groupID,
+                      accountIndex: accountIndex,
+                    );
+                  },
+                );
               },
             ),
           ],
@@ -102,7 +125,6 @@ class ManageAccountBody extends StatelessWidget {
               blurRadius: 1.r,
               offset: Offset(0, 2.h),
             ),
-
           ],
         ),
         child: Row(

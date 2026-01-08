@@ -5,7 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/custom_appbar.dart';
 
 class AvailableBalanceDetails extends StatelessWidget {
-  const AvailableBalanceDetails({super.key});
+  final String currentBalance;
+  final String availableBalance;
+  final String overdraftLimit;
+  const AvailableBalanceDetails({
+    super.key,
+    required this.currentBalance,
+    required this.overdraftLimit,
+    required this.availableBalance,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +33,7 @@ class AvailableBalanceDetails extends StatelessWidget {
 
             _infoRow(
               label: 'Current Balance :',
-              value: '\$300.00',
-              valueColor: Color(0xff363636),
-            ),
-
-            SizedBox(height: 10.h),
-
-            _infoRow(
-              label: 'Pending Transactions :',
-              value: '\$0.00',
+              value: currentBalance,
               valueColor: Color(0xff363636),
             ),
 
@@ -41,26 +41,20 @@ class AvailableBalanceDetails extends StatelessWidget {
 
             _infoRow(
               label: 'Overdraft Limit :',
-              value: '\$300.00',
+              value: overdraftLimit,
               valueColor: Colors.green,
             ),
 
             SizedBox(height: 14.h),
 
-
             Divider(color: Colors.grey.shade300),
             _infoRow(
               label: 'Available :',
-              value: '\$300.00',
+              value: availableBalance,
               valueColor: Colors.green,
             ),
 
-
             SizedBox(height: 16.h),
-
-
-
-
 
             SizedBox(height: 16.h),
 
@@ -90,7 +84,7 @@ class AvailableBalanceDetails extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'OvYour available balance represents the amount you can currently spend,including your overdraft limit, minus pending transactions.',
+                          'OvYour available balance represents the amount you can currently spend,including your overdraft limit, minus pending transactions.',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w400,
                         color: Color(0xff3A3793),

@@ -5,20 +5,39 @@ import 'package:google_fonts/google_fonts.dart';
 import 'add_cancle_buttom.dart';
 import 'custom_text_field.dart';
 
-
-class AddTrensectionPopup{
-  /// Static method to trigger the popup correctly
-  static Future<void> showPopup(BuildContext context) {
+class AddTrensectionPopup {
+  static Future<void> showPopup(
+    BuildContext context, {
+    required Function(String title, double amount, DateTime date) onSubmit,
+  }) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const DialogBody(),
+      builder: (_) => DialogBody(onSubmit: onSubmit),
     );
   }
 }
 
-class DialogBody extends StatelessWidget {
-  const DialogBody({super.key});
+class DialogBody extends StatefulWidget {
+  final Function(String, double, DateTime) onSubmit;
+
+  const DialogBody({super.key, required this.onSubmit});
+
+  @override
+  State<DialogBody> createState() => _DialogBodyState();
+}
+
+class _DialogBodyState extends State<DialogBody> {
+  final TextEditingController titleCtrl = TextEditingController();
+  final TextEditingController amountCtrl = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void dispose() {
+    titleCtrl.dispose();
+    amountCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,27 +65,72 @@ class DialogBody extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            /// Bank Name
-
-            CustomTextField(hintText: "Type...", label: 'Tittle',),
+            /// Title
+            CustomTextField(
+              label: 'Title',
+              hintText: "Type...",
+              controller: titleCtrl,
+            ),
 
             SizedBox(height: 12.h),
-            CustomTextField(hintText: "Type...", label: 'Amount',),
 
             /// Amount
+            CustomTextField(
+              label: 'Amount',
+              hintText: "Type...",
+              keyboardType: TextInputType.number,
+              controller: amountCtrl,
+            ),
 
             SizedBox(height: 12.h),
 
-            CustomTextField(hintText: "Type...", label: 'Date',),
-            /// Account Number
+            /// Date picker
+            GestureDetector(
+              onTap: _pickDate,
+              child: CustomTextField(
+                label: 'Date',
+                hintText: "${selectedDate.toLocal()}".split(' ')[0],
+                readOnly: false,
+              ),
+            ),
 
             SizedBox(height: 20.h),
 
             /// Buttons
-            AddCancelButton(cancelText: 'Cancel', addText: 'Update Details', cancelOnTap: () { Navigator.pop(context); }, addOnTap: () { Navigator.pop(context); },),
+            AddCancelButton(
+              cancelText: 'Cancel',
+              addText: 'Add Transaction',
+              cancelOnTap: () => Navigator.pop(context),
+              addOnTap: _submit,
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _submit() {
+    if (titleCtrl.text.isEmpty || amountCtrl.text.isEmpty) return;
+
+    widget.onSubmit(
+      titleCtrl.text.trim(),
+      double.parse(amountCtrl.text),
+      selectedDate,
+    );
+
+    Navigator.pop(context);
+  }
+
+  Future<void> _pickDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      setState(() => selectedDate = picked);
+    }
   }
 }

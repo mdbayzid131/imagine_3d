@@ -1,19 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:imagine_3d/presentation/screens/more/password_change_screen.dart';
-
 import '../../../core/constants/app_color.dart';
 import '../../../core/constants/image_paths.dart';
-import '../../widgets/custom_appbar.dart';
+import '../../../routes/routes.dart';
+import '../../controllers/auth_controller.dart';
+import '../../controllers/profile_controller.dart';
 import '../../widgets/custom_profile.dart';
+import '../../widgets/logout_popup.dart';
 import 'change_name_screen.dart';
 
 class MoreScreen extends StatelessWidget {
-  const MoreScreen({super.key});
-
+  MoreScreen({super.key});
+  final AuthController controller = Get.find<AuthController>();
+  final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +39,17 @@ class MoreScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 40.h),
-            Center(child: CustomProfile(imagePath: ImagePaths.appLogo)),
+            SizedBox(height: 20.h),
+
+            /*            Center(child: CustomProfile(imagePath: ImagePaths.appLogo)),
             SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Jhon Due',
+                  '',
                   style: GoogleFonts.poppins(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -77,8 +84,7 @@ class MoreScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 40.h),
-
+            SizedBox(height: 40.h),*/
             Row(
               children: [
                 Icon(Icons.person_outline, size: 20.sp),
@@ -86,13 +92,63 @@ class MoreScreen extends StatelessWidget {
                 Text(
                   'User Information',
                   style: GoogleFonts.poppins(
-                    fontSize: 14.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 15.h),
+            Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Name :',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sp,
+                          color: AppColors.textColor,
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        profileController.name.value,
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+
+                  Row(
+                    children: [
+                      Text(
+                        'Email :',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sp,
+                          color: AppColors.textColor,
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        profileController.email.value,
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 30.h),
 
             _SettingsTile(
               icon: Icons.person_outline,
@@ -116,7 +172,12 @@ class MoreScreen extends StatelessWidget {
 
             GestureDetector(
               onTap: () {
-                Get.to(() => ChangeNameScreen());
+                LogoutPopup.show(
+                  context: context,
+                  onLogout: () {
+                    controller.logout();
+                  },
+                );
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),

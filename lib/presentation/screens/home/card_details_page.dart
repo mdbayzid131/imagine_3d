@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:imagine_3d/core/constants/app_color.dart';
 import 'package:imagine_3d/presentation/screens/home/tabs/activity_tabs.dart';
 
+import '../../controllers/account_details_controller.dart';
 import '../../widgets/add_trensection_popup.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/edit_account_name.dart';
@@ -12,10 +16,14 @@ import 'tabs/details_tab.dart';
 import 'tabs/manage_tab.dart';
 
 class CardDetailsPage extends StatelessWidget {
-  const CardDetailsPage({super.key});
+  CardDetailsPage({super.key});
+  final controller = Get.put(CardDetailsController());
 
   @override
   Widget build(BuildContext context) {
+final args = Get.arguments;
+final groupId = args['groupId'];
+final accountIndex = args['accountIndex'];
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -38,34 +46,40 @@ class CardDetailsPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '6644129',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16.sp,
-                        color: AppColors.textColor,
-                        fontWeight: FontWeight.w500,
+                    Obx(
+                      () => Text(
+                        controller.account.value.number,
+                        style: GoogleFonts.poppins(
+                          fontSize: 16.sp,
+                          color: AppColors.textColor,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
 
                     SizedBox(height: 6.h),
 
-                    Text(
-                      'TD All- Inclusive Banking Plan',
-                      style: GoogleFonts.poppins(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.primary,
+                    Obx(
+                      () => Text(
+                        controller.account.value.name,
+                        style: GoogleFonts.poppins(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
 
                     SizedBox(height: 10.h),
 
-                    Text(
-                      '\$6,733.32',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textColor,
+                    Obx(
+                      () => Text(
+                        "\$${controller.account.value.amount.toStringAsFixed(2)}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textColor,
+                        ),
                       ),
                     ),
                   ],
@@ -97,7 +111,7 @@ class CardDetailsPage extends StatelessWidget {
             /// Tab Views
             Expanded(
               child: TabBarView(
-                children: [ActivityTabs(), DetailsTab(), ManageAccountBody()],
+                children: [ActivityTabs(), DetailsTab(), ManageAccountBody(groupID: groupId, accountIndex: accountIndex,)],
               ),
             ),
           ],
