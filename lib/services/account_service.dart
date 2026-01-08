@@ -23,9 +23,11 @@ class AccountService {
     required double amount,
   }) async {
     final newAccount = {
+      'id': DateTime.now().millisecondsSinceEpoch.toString(),
       'name': name,
       'number': number,
       'amount': amount,
+      'transactions':[],
     };
 
     await _firestore

@@ -13,6 +13,7 @@ import '../../../routes/routes.dart';
 import '../../controllers/homepgeController.dart';
 import '../../widgets/add_account_popup.dart';
 import '../../widgets/custom_elevated_button.dart';
+import 'card_details_page.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -28,10 +29,26 @@ class HomeScreen extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(20.w, 20.w, 20.w, 20.w),
           child: headerArea(),
         ),
+        SizedBox(height: 10.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Row(
+            children: [
+              Text(
+                "My Accounts",
+                style: GoogleFonts.poppins(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10.h),
         Expanded(
           child: Obx(
             () => ListView.builder(
-              padding: EdgeInsets.all(16.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               itemCount: controller.accountGroups.length,
               itemBuilder: (context, index) {
                 // if (index == controller.accountGroups.length) {
@@ -83,68 +100,68 @@ class HomeScreen extends StatelessWidget {
 
   SafeArea headerArea() {
     return SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Total Balance",
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.h),
               Text(
-                "\$24,567.83",
+                "Total Balance",
                 style: GoogleFonts.poppins(
                   color: Colors.white,
-                  fontSize: 30.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(height: 8.h),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5.w,
-                      vertical: 4.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF099D09),
-                      border: Border.all(color: Color(0xFF64D021), width: 1),
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "4 Accounts",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Obx(
+            () => Text(
+              "\$${controller.totalBalance.obs.toStringAsFixed(2)}",
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: Color(0xFF099D09),
+                  border: Border.all(color: Color(0xFF64D021), width: 1),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Center(
+                  child: Obx(
+                    ()=> Text(
+                      "${controller.totalAccounts.obs} Accounts",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
-                  SizedBox(width: 8.w),
-                ],
+                ),
               ),
+              SizedBox(width: 8.w),
             ],
           ),
-        );
+        ],
+      ),
+    );
   }
 
   ///================ ACCOUNT CARD =================///
   Widget _accountCard(AccountGroup group, int index, BuildContext context) {
     return Obx(() {
-
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
       }
@@ -152,7 +169,7 @@ class HomeScreen extends StatelessWidget {
       final int accountCount = group.accounts.length;
       final double totalAmount = group.accounts.fold(
         0.0,
-            (sum, item) => sum + item.amount,
+        (sum, item) => sum + item.amount,
       );
 
       return Container(
@@ -177,6 +194,8 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: AppColors.caption,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -203,11 +222,32 @@ class HomeScreen extends StatelessWidget {
             if (isExpanded) ...[
               Divider(height: .5.h, color: Colors.black12),
 
-              ...group.accounts.map(accountInnerCard),
+              ...group.accounts.asMap().entries.map((entry) {
+                final accIndex = entry.key;
+                final accItem = entry.value;
+
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => CardDetailsPage(),
+                      arguments: {
+                        'groupId': group.id,
+                        'accountIndex': accIndex,
+                      },
+                    );
+                  },
+                  child: accountInnerCard(accItem),
+                );
+              }),
+
               Divider(height: .5.h, color: Colors.black12),
               GestureDetector(
                 onTap: () {
-                  AddAccountPopup.showPopup(context: context, accountType:group.title, accountIndex: index);
+                  AddAccountPopup.showPopup(
+                    context: context,
+                    accountType: group.title,
+                    accountIndex: index,
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

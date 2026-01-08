@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../controllers/account_details_controller.dart';
 import '../../../widgets/add_trensection_popup.dart';
 import '../../../widgets/trensection_tapa_and_hold_popup.dart';
+
 class ActivityTabs extends StatelessWidget {
-  const ActivityTabs({super.key});
+  ActivityTabs({super.key});
+  final controller = Get.find<CardDetailsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +27,23 @@ class ActivityTabs extends StatelessWidget {
             children: [
               Text(
                 "Transactions",
-                style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               GestureDetector(
                 onTap: () {
-                  AddTrensectionPopup.showPopup(context);
+                  AddTrensectionPopup.showPopup(
+                    context,
+                    onSubmit: (title, amount, date) {
+                      controller.addTransaction(
+                        title: title,
+                        amount: amount,
+                        date: date,
+                      );
+                    },
+                  );
                 },
                 child: Text(
                   "+ Add",
@@ -43,46 +61,40 @@ class ActivityTabs extends StatelessWidget {
 
           /// Transaction List
           Expanded(
-            child: ListView(
-              children: [
-                _dateLabel("Monday December 22, 2025"),
-                GestureDetector(
-                  onLongPress: () {
-                    TrensectionTapaAndHoldPopup.showPopup(context);
-                  },
-                  child: _transactionTile(
-                    title: "SAVE ON FOODS#_F",
-                    amount: "-\$15.00",
-                    balance: "\$6,488.32",
+            child: Obx(() {
+              if (controller.transactions.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No transactions found.',
+                    style: GoogleFonts.poppins(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                _transactionTile(
-                  title: "TESORO ITALIAN _ F",
-                  amount: "-\$6.00",
-                  balance: "\$6,488.32",
-                ),
+                );
+              }
+              return ListView.builder(
+                itemCount: controller.transactions.length,
+                itemBuilder: (context, index) {
+                  final tx = controller.transactions[index];
 
-                _dateLabel("Friday December 19, 2025"),
-                _transactionTile(
-                  title: "STARBUCKS COFFE_F",
-                  amount: "-\$15.00",
-                  balance: "\$6,488.32",
-                ),
-
-                _dateLabel("Thursday December 18, 2025"),
-                _transactionTile(
-                  title: "SAVE ON FOODS#_F",
-                  amount: "-\$15.00",
-                  balance: "\$6,488.32",
-                ),
-              ],
-            ),
+                  return _transactionTile(
+                    title: tx.title,
+                    amount: tx.amount < 0
+                        ? "-\$${tx.amount.abs().toStringAsFixed(2)}"
+                        : "+\$${tx.amount.toStringAsFixed(2)}",
+                    balance: "\$${tx.nowBalance.toStringAsFixed(2)}",
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
     );
   }
 }
+
 Widget _dateLabel(String text) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -129,7 +141,10 @@ Widget _transactionTile({
         ),
         Text(
           amount,
-          style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     ),

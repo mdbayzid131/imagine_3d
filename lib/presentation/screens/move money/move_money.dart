@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_color.dart';
+import '../../controllers/all_transaction_controller.dart';
 import '../../widgets/custom_appbar.dart';
-
 class MoveMoneyScreen extends StatelessWidget {
-  const MoveMoneyScreen({super.key});
-
+   MoveMoneyScreen({super.key});
+  final controller = Get.put(AllTransactionController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,25 +57,71 @@ class MoveMoneyScreen extends StatelessWidget {
               amount: "-\$15.00",
               balance: "Chase Checking",
             ),
-            _transactionTile(
-              title: "TESORO ITALIAN _ F",
-              amount: "-\$6.00",
-              balance: "Chase Checking",
-            ),
+        Obx(() {
+          final grouped =
+          groupByDate(controller.allTransactions);
 
-            _dateLabel("Friday December 19, 2025"),
-            _transactionTile(
-              title: "STARBUCKS COFFE_F",
-              amount: "-\$15.00",
-              balance: "Chase Checking",
-            ),
+          if (grouped.isEmpty) {
+            return const Center(child: Text("No transactions"));
+          }
 
-            _dateLabel("Thursday December 18, 2025"),
-            _transactionTile(
-              title: "SAVE ON FOODS#_F",
-              amount: "-\$15.00",
-              balance: "Chase Checking",
-            ),
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: grouped.entries.map((entry) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// 📅 Date Header
+                  Text(
+                    entry.key,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  /// Transactions
+                  ...entry.value.map((tx) {
+
+
+                    return ListTile(
+                      title: Text(tx.title),
+                      subtitle:
+                      Text("${tx.accountName} • ${tx.groupTitle}"),
+                      trailing: Text(
+                        tx.amount < 0
+                            ? "-\$${tx.amount.abs()}"
+                            : "+\$${tx.amount}",
+                        style: TextStyle(
+                          color: tx.amount < 0
+                              ? Colors.red
+                              : Colors.green,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+
+                    );
+
+                    // _transactionTile(
+                    //   title: "SAVE ON FOODS#_F",
+                    //   amount: "-\$15.00",
+                    //   balance: "Chase Checking",
+                    // );
+
+
+
+                  }).toList(),
+
+                  const SizedBox(height: 20),
+                ],
+              );
+            }).toList(),
+          );
+        })
+
+
+
           ],
         ),
       ),
