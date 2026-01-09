@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../controllers/account_details_controller.dart';
 import 'available_balance_details.dart';
 import 'overdraft_limit_details.dart';
 
 class DetailsTab extends StatelessWidget {
-  const DetailsTab({super.key});
+  DetailsTab({super.key});
+  final controller = Get.put(CardDetailsController());
+  final double overdraftLimit = 300.0;
+  final double currentLimit = 300.0;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,10 @@ class DetailsTab extends StatelessWidget {
           /// Title
           Text(
             "Account Information",
-            style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
+            style: GoogleFonts.poppins(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
 
           SizedBox(height: 16.h),
@@ -42,17 +50,18 @@ class DetailsTab extends StatelessWidget {
               children: [
                 _infoRow(
                   label: "Account Name",
-                  value: "TD All- Inclusive\nBanking Plan",
+                  value: controller.account.value.name,
                 ),
                 _divider(),
                 _infoRow(
                   label: "Account Number",
-                  value: "6644129",
+                  value: controller.account.value.number,
                 ),
                 _divider(),
                 _infoRow(
                   label: "Account Balance",
-                  value: "\$6,441.29",
+                  value:
+                      "\$${controller.account.value.amount.toStringAsFixed(2)}",
                 ),
                 _divider(),
                 _infoRowWithAction(
@@ -60,15 +69,33 @@ class DetailsTab extends StatelessWidget {
                   value: "\$300.00",
                   actionText: "View Details",
                   onTap: () {
-                    Get.to(() => OverdraftLimitDetails());
+                    Get.to(
+                      () => OverdraftLimitDetails(
+                        currentBalance:
+                            "\$${controller.account.value.amount.toStringAsFixed(2)}",
+                        used: "00.00",
+                        availableBalance:
+                            "\$${controller.account.value.amount.toStringAsFixed(2)}",
+                      ),
+                    );
                   },
-                ),_divider(),
+                ),
+                _divider(),
                 _infoRowWithAction(
                   label: "Available Balance",
-                  value: "\$300.00",
+                  value:
+                      "\$${controller.account.value.amount.toStringAsFixed(2)}",
                   actionText: "View Details",
                   onTap: () {
-                    Get.to(() => AvailableBalanceDetails());
+                    Get.to(
+                      () => AvailableBalanceDetails(
+                        currentBalance:
+                            "\$${controller.account.value.amount.toStringAsFixed(2)}",
+                        overdraftLimit: overdraftLimit.toStringAsFixed(2),
+                        availableBalance:
+                            "\$${controller.account.value.amount.toStringAsFixed(2)}",
+                      ),
+                    );
                   },
                 ),
               ],
@@ -79,10 +106,8 @@ class DetailsTab extends StatelessWidget {
     );
   }
 }
-Widget _infoRow({
-  required String label,
-  required String value,
-}) {
+
+Widget _infoRow({required String label, required String value}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
     child: Row(
@@ -91,10 +116,7 @@ Widget _infoRow({
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
-              fontSize: 14.sp,
-              color: Colors.black87,
-            ),
+            style: GoogleFonts.poppins(fontSize: 14.sp, color: Colors.black87),
           ),
         ),
         SizedBox(width: 12.w),
@@ -123,12 +145,7 @@ Widget _infoRowWithAction({
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 14.sp,
-            ),
-          ),
+          child: Text(label, style: GoogleFonts.poppins(fontSize: 14.sp)),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -160,9 +177,5 @@ Widget _infoRowWithAction({
 }
 
 Widget _divider() {
-  return Divider(
-    height: 1,
-    thickness: 0.8,
-    color: Colors.grey.shade200,
-  );
+  return Divider(height: 1, thickness: 0.8, color: Colors.grey.shade200);
 }

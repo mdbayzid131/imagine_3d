@@ -99,7 +99,12 @@ class PasswordChangeScreen extends StatelessWidget {
                   hintText: 'Enter Confirm password',
                   label: 'Confirm Password',
                   controller: _confirmPassController,
-                  validator: authController.validPassword,
+                  validator: (value){
+                    if(value != _newPassController.text){
+                      return 'Password does not match';
+                    }
+                    return null;
+                  },
                   obscureText: authController.isConfirmPasswordVisible.value,
                   suffixIcon: IconButton(
                     icon: authController.isConfirmPasswordVisible.value
@@ -125,7 +130,11 @@ class PasswordChangeScreen extends StatelessWidget {
                   label: 'Save Changes',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pop(context);
+                      authController.changePassword(
+                        oldPassword: _currentPassController.text,
+                        newPassword: _newPassController.text,
+                      );
+
                     }
                   },
                 ),

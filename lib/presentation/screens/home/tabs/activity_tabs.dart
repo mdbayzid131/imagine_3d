@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../controllers/account_details_controller.dart';
 import '../../../widgets/add_trensection_popup.dart';
 import '../../../widgets/trensection_tapa_and_hold_popup.dart';
+
 class ActivityTabs extends StatelessWidget {
-  const ActivityTabs({super.key});
+  final String groupId;
+  final int accountIndex;
+  final String accountName;
+
+  ActivityTabs({
+    super.key,
+    required this.groupId,
+    required this.accountIndex,
+    required this.accountName,
+  });
+  final controller = Get.find<CardDetailsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +37,23 @@ class ActivityTabs extends StatelessWidget {
             children: [
               Text(
                 "Transactions",
-                style: GoogleFonts.poppins(fontSize: 20.sp, fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               GestureDetector(
                 onTap: () {
-                  AddTrensectionPopup.showPopup(context);
+                  AddTrensectionPopup.showPopup(
+                    context,
+                    onSubmit: (title, amount, date) {
+                      controller.addTransaction(
+                        title: title,
+                        amount: amount,
+                        date: date,
+                      );
+                    },
+                  );
                 },
                 child: Text(
                   "+ Add",
@@ -43,46 +71,54 @@ class ActivityTabs extends StatelessWidget {
 
           /// Transaction List
           Expanded(
-            child: ListView(
-              children: [
-                _dateLabel("Monday December 22, 2025"),
-                GestureDetector(
-                  onLongPress: () {
-                    TrensectionTapaAndHoldPopup.showPopup(context);
-                  },
-                  child: _transactionTile(
-                    title: "SAVE ON FOODS#_F",
-                    amount: "-\$15.00",
-                    balance: "\$6,488.32",
+            child: Obx(() {
+              if (controller.transactions.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No transactions found.',
+                    style: GoogleFonts.poppins(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                _transactionTile(
-                  title: "TESORO ITALIAN _ F",
-                  amount: "-\$6.00",
-                  balance: "\$6,488.32",
-                ),
+                );
+              }
+              return ListView.builder(
+                itemCount: controller.transactions.length,
+                itemBuilder: (context, index) {
+                  final tx = controller.transactions[index];
 
-                _dateLabel("Friday December 19, 2025"),
-                _transactionTile(
-                  title: "STARBUCKS COFFE_F",
-                  amount: "-\$15.00",
-                  balance: "\$6,488.32",
-                ),
+                  return GestureDetector(
+                    onLongPress: () {
+                      TrensectionTapaAndHoldPopup.showPopup(
+                        context: context,
+                        title: tx.title,
+                        balance: tx.amount,
+                        date: _formatDate(tx.date.toDate()),
+                        groupId: groupId,
+                        index: index,
+                        accountName:
+                            accountName, // Pass the index of transaction
+                      );
+                    },
+                    child: _transactionTile(
+                      title: tx.title,
+                      amount: tx.amount,
 
-                _dateLabel("Thursday December 18, 2025"),
-                _transactionTile(
-                  title: "SAVE ON FOODS#_F",
-                  amount: "-\$15.00",
-                  balance: "\$6,488.32",
-                ),
-              ],
-            ),
+                      date: tx.date.toDate(),
+                      newBalance: tx.nowBalance,
+                    ),
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
     );
   }
 }
+
 Widget _dateLabel(String text) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -95,43 +131,82 @@ Widget _dateLabel(String text) {
 
 Widget _transactionTile({
   required String title,
-  required String amount,
-  required String balance,
+  required double amount,
+  required double newBalance,
+  required DateTime date,
 }) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 8.h),
-    padding: EdgeInsets.all(12.w),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10.r),
-      border: Border.all(color: Colors.black12),
+  final isExpense = amount < 0;
+  return Card(
+    elevation: 0,
+    color: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.r), // Responsive radius
+      side: BorderSide(
+        color: Colors.black12,
+        width: 1.w, // Responsive border width
+      ),
     ),
-    child: Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                balance,
-                style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-              ),
-            ],
+    margin: EdgeInsets.only(bottom: 10.h), // Responsive margin
+    child: ListTile(
+      // Leading icon with responsive size
+      leading: CircleAvatar(
+        radius: 20.r, // Responsive radius
+        backgroundColor: isExpense
+            ? Colors.red.shade100
+            : Colors.green.shade100,
+        child: Icon(
+          isExpense ? Icons.arrow_upward : Icons.arrow_downward,
+          color: isExpense ? Colors.red : Colors.green,
+          size: 22.sp, // Responsive icon
+        ),
+      ),
+
+      /// Transaction Title
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 14.sp, // Responsive font
+        ),
+      ),
+
+      /// Subtitle: Account Name + Date
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 2.h), // Responsive spacing
+          Text(
+            _formatDate(date),
+            style: TextStyle(fontSize: 12.sp), // Responsive font
           ),
-        ),
-        Text(
-          amount,
-          style: GoogleFonts.poppins(fontSize: 14.sp, fontWeight: FontWeight.w600),
-        ),
-      ],
+        ],
+      ),
+
+      /// Trailing: Amount
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            "\$${isExpense ? '-' : ''}${amount.abs()}",
+            style: GoogleFonts.poppins(
+              color: isExpense ? Colors.red : Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp, // Responsive font
+            ),
+          ),
+          SizedBox(height: 2.h), // Responsive spacing
+          Text(
+            "\$$newBalance",
+            style: GoogleFonts.poppins(fontSize: 12.sp),
+          ), // Responsive")
+        ],
+      ),
     ),
   );
+}
+
+/// Format date to DD-MM-YYYY
+String _formatDate(DateTime date) {
+  return "${date.day}-${date.month}-${date.year}";
 }

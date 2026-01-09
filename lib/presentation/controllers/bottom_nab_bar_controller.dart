@@ -10,9 +10,9 @@ class BottomNavController extends GetxController {
   ///<================================== ALL SCREENS ========================>///
   final screens = <Widget>[
      HomeScreen(),
-    const AccountsScreen(),
-    const MoveMoneyScreen(),
-    const MoreScreen(),
+     AccountsScreen(),
+     MoveMoneyScreen(),
+     MoreScreen(),
   ];
   ///<================================== END SCREENS ========================>///
 

@@ -5,7 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/custom_appbar.dart';
 
 class OverdraftLimitDetails extends StatelessWidget {
-  const OverdraftLimitDetails({super.key});
+  final String currentBalance;
+  final String used;
+  final String availableBalance;
+  const OverdraftLimitDetails({
+    super.key,
+    required this.currentBalance,
+    required this.used,
+    required this.availableBalance,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +33,7 @@ class OverdraftLimitDetails extends StatelessWidget {
 
             _infoRow(
               label: 'Current Limit :',
-              value: '\$300.00',
+              value: currentBalance,
               valueColor: Color(0xff363636),
             ),
 
@@ -33,7 +41,7 @@ class OverdraftLimitDetails extends StatelessWidget {
 
             _infoRow(
               label: 'Used :',
-              value: '\$0.00',
+              value: used,
               valueColor: Color(0xff363636),
             ),
 
@@ -41,7 +49,7 @@ class OverdraftLimitDetails extends StatelessWidget {
 
             _infoRow(
               label: 'Available :',
-              value: '\$300.00',
+              value: availableBalance,
               valueColor: Colors.green,
             ),
 
