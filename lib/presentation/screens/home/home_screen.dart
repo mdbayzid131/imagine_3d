@@ -46,26 +46,32 @@ class HomeScreen extends StatelessWidget {
         ),
         SizedBox(height: 10.h),
         Expanded(
-          child: Obx(
-            () {
-              if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              itemCount: controller.accountGroups.length,
-              itemBuilder: (context, index) {
-                final group = controller.accountGroups[index];
-                return Column(
-                  children: [
-                    _accountCard(group, index, context),
-                    SizedBox(height: 20.h),
-                  ],
-                );
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return RefreshIndicator(
+              color: AppColors.primary,
+              backgroundColor: Colors.white,
+              strokeWidth: 2.w,
+              onRefresh: () async {
+                controller.fetchAccountGroups();
               },
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                itemCount: controller.accountGroups.length,
+                itemBuilder: (context, index) {
+                  final group = controller.accountGroups[index];
+                  return Column(
+                    children: [
+                      _accountCard(group, index, context),
+                      SizedBox(height: 20.h),
+                    ],
+                  );
+                },
+              ),
             );
-            },
-          ),
+          }),
         ),
       ],
     );
@@ -113,7 +119,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: Obx(
-                    ()=> Text(
+                    () => Text(
                       "${controller.totalAccounts.obs} Accounts",
                       style: GoogleFonts.poppins(
                         color: Colors.white,
@@ -199,7 +205,6 @@ class HomeScreen extends StatelessWidget {
                 final accIndex = entry.key;
                 final accItem = entry.value;
                 final accName = accItem.name;
-
 
                 return InkWell(
                   onTap: () {

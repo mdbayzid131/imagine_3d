@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:imagine_3d/presentation/controllers/auth_controller.dart';
 
 import 'add_cancle_buttom.dart';
 import 'custom_text_field.dart';
@@ -33,11 +36,10 @@ class _DialogBodyState extends State<DialogBody> {
   final TextEditingController titleCtrl = TextEditingController();
   final TextEditingController amountCtrl = TextEditingController();
   final TextEditingController dateCtrl = TextEditingController();
+  final AuthController authController = Get.find<AuthController>();
+  final formKey = GlobalKey<FormState>();
 
   DateTime selectedDate = DateTime.now();
-
-  final _showTitleError = false.obs;
-  final _showAmountError = false.obs;
 
   @override
   void dispose() {
@@ -64,94 +66,94 @@ class _DialogBodyState extends State<DialogBody> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14.r),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Title
-            Text(
-              "Transaction Add",
-              style: GoogleFonts.poppins(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.h),
-
-            /// Title
-            Obx(
-              () => CustomTextField(
-                label: 'Title',
-                hintText: "Type...",
-                controller: titleCtrl,
-                errorText: _showTitleError.value ? 'Title is required' : null,
-              ),
-            ),
-            SizedBox(height: 12.h),
-
-            /// Amount
-            Obx(
-              () => CustomTextField(
-                label: 'Amount',
-                hintText: "Type...",
-                keyboardType: TextInputType.number,
-                controller: amountCtrl,
-                errorText: _showAmountError.value ? 'Amount is required' : null,
-              ),
-            ),
-            SizedBox(height: 12.h),
-
-            /// Date picker
-            /// Date picker
-            GestureDetector(
-              onTap: _pickDate,
-              child: AbsorbPointer(
-                child: CustomTextField(
-                  label: 'Date',
-                  controller: dateCtrl,
-                  hintText: 'Select date',
-                  suffixIcon: Icon(Icons.calendar_month_rounded, size: 20.sp),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Title
+              Text(
+                "Transaction Add",
+                style: GoogleFonts.poppins(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
+              SizedBox(height: 16.h),
 
-            SizedBox(height: 20.h),
+              /// Title
+              CustomTextField(
+                label: 'Title',
+                hintText: "Enter title...",
+                controller: titleCtrl,
+                validator: (value){
+                  if (value!.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
 
-            /// Buttons
-            AddCancelButton(
-              cancelText: 'Cancel',
-              addText: 'Add Transaction',
-              cancelOnTap: () => Navigator.pop(context),
-              addOnTap: _submit,
-            ),
-          ],
+              SizedBox(height: 12.h),
+
+              /// Amount
+              CustomTextField(
+                validator: authController.amountValidator,
+                label: 'Amount',
+                hintText: "Enter amount (+deposit, -withdraw)",
+                keyboardType: TextInputType.number,
+                controller: amountCtrl,
+              ),
+
+              SizedBox(height: 12.h),
+
+              /// Date picker
+              /// Date picker
+              GestureDetector(
+                onTap: _pickDate,
+                child: AbsorbPointer(
+                  child: CustomTextField(
+                    label: 'Date',
+                    controller: dateCtrl,
+                    hintText: 'Select date',
+                    suffixIcon: Icon(Icons.calendar_month_rounded, size: 20.sp),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 20.h),
+
+              /// Buttons
+              AddCancelButton(
+                cancelText: 'Cancel',
+                addText: 'Add Transaction',
+                cancelOnTap: () => Navigator.pop(context),
+                addOnTap: _submit,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   void _submit() {
-    final title = titleCtrl.text.trim();
-    final amountText = amountCtrl.text.trim();
-    bool hasError = false;
-
-    if (title.isEmpty) {
-      _showTitleError.value = true;
-      hasError = true;
-    } else {
-      _showTitleError.value = false;
+    if (!formKey.currentState!.validate()) {
+      return;
     }
 
-    if (amountText.isEmpty) {
-      _showAmountError.value = true;
-      hasError = true;
-    } else {
-      _showAmountError.value = false;
+    final amount = double.tryParse(amountCtrl.text.trim());
+
+    if (amount == null) {
+      return;
     }
 
-    if (hasError) return; // Don't submit if error exists
-
-    widget.onSubmit(title, double.parse(amountText), selectedDate);
+    widget.onSubmit(
+      titleCtrl.text.trim(),
+      amount,
+      selectedDate,
+    );
 
     Navigator.pop(context);
   }
