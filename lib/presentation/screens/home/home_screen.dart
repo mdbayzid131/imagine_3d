@@ -47,42 +47,14 @@ class HomeScreen extends StatelessWidget {
         SizedBox(height: 10.h),
         Expanded(
           child: Obx(
-            () => ListView.builder(
+            () {
+              if (controller.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               itemCount: controller.accountGroups.length,
               itemBuilder: (context, index) {
-                // if (index == controller.accountGroups.length) {
-                //   // return GestureDetector(
-                //   //   onTap: () {
-                //   //     AddAccountPopup.showPopup(context);
-                //   //   },
-                //   //   child: Padding(
-                //   //     padding: const EdgeInsets.symmetric(
-                //   //       horizontal: 10,
-                //   //       vertical: 8,
-                //   //     ),
-                //   //     child: Row(
-                //   //       mainAxisAlignment: MainAxisAlignment.center,
-                //   //       children: [
-                //   //         Icon(
-                //   //           Icons.add_circle_outline,
-                //   //           color: Colors.green,
-                //   //           size: 22.sp,
-                //   //         ),
-                //   //         SizedBox(width: 8.w),
-                //   //         Text(
-                //   //           "Add Accounts",
-                //   //           style: GoogleFonts.poppins(
-                //   //             fontSize: 18.sp,
-                //   //             fontWeight: FontWeight.w500,
-                //   //           ),
-                //   //         ),
-                //   //       ],
-                //   //     ),
-                //   //   ),
-                //   // );
-                //   return CustomElevatedButton(label: 'Add Accounts', onPressed: () {  },);
-                // }
                 final group = controller.accountGroups[index];
                 return Column(
                   children: [
@@ -91,7 +63,8 @@ class HomeScreen extends StatelessWidget {
                   ],
                 );
               },
-            ),
+            );
+            },
           ),
         ),
       ],

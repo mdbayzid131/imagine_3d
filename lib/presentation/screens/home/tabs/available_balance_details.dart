@@ -79,12 +79,12 @@ class AvailableBalanceDetails extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 14.sp,
-                        color: Color(0xff6C28A8A),
+                        color: Color(0xff6C28A8),
                       ),
                     ),
                     TextSpan(
                       text:
-                          'OvYour available balance represents the amount you can currently spend,including your overdraft limit, minus pending transactions.',
+                          'Your available balance represents the amount you can currently spend,including your overdraft limit, minus pending transactions.',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w400,
                         color: Color(0xff3A3793),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/auth_controller.dart';
@@ -10,7 +9,6 @@ import 'add_cancle_buttom.dart';
 import 'custom_text_field.dart';
 
 class AddAccountPopup {
-  /// Static method to trigger the popup correctly
   static Future<void> showPopup({
     required BuildContext context,
     required String accountType,
@@ -19,7 +17,8 @@ class AddAccountPopup {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => DialogBody(accountType: accountType, accountIndex: accountIndex,),
+      builder: (_) =>
+          DialogBody(accountType: accountType, accountIndex: accountIndex),
     );
   }
 }
@@ -28,13 +27,18 @@ class DialogBody extends StatelessWidget {
   final String accountType;
   final int accountIndex;
 
-  DialogBody({super.key, required this.accountType, required this.accountIndex});
+  DialogBody({
+    super.key,
+    required this.accountType,
+    required this.accountIndex,
+  });
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _accountTypeController = TextEditingController();
   final TextEditingController _bankNameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _accountNumberController =
-      TextEditingController();
+  TextEditingController();
+
   final AccountController _accountController = Get.find<AccountController>();
   final AuthController _authController = Get.find<AuthController>();
 
@@ -42,12 +46,12 @@ class DialogBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Container(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(14.r),
+          borderRadius: BorderRadius.circular(18.r),
         ),
         child: SingleChildScrollView(
           child: Form(
@@ -61,67 +65,62 @@ class DialogBody extends StatelessWidget {
                   "Add Account",
                   style: GoogleFonts.poppins(
                     fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
                 SizedBox(height: 16.h),
 
-                /// Account Type
-                CustomTextField(
-                  readOnly: true,
-                  controller: _accountTypeController,
+                /// Account Type Card (NOT TextField)
+                _AccountTypeCard(type: accountType),
 
-                  hintText: accountType,
-                  label: 'Account Type',
-                ),
-
-                SizedBox(height: 12.h),
+                SizedBox(height: 16.h),
 
                 /// Bank Name
                 CustomTextField(
                   controller: _bankNameController,
                   validator: _authController.validName,
-                  hintText: "Enter your bank name",
+                  hintText: "Enter bank name",
                   label: 'Bank Name',
                 ),
 
                 SizedBox(height: 12.h),
+
+                /// Amount
                 CustomTextField(
-                  hintText: "Type...",
+                  hintText: "Enter amount",
                   label: 'Amount',
                   controller: _amountController,
                   validator: _authController.amountValidator,
+                  keyboardType: TextInputType.number,
                 ),
 
-                /// Amount
                 SizedBox(height: 12.h),
 
+                /// Account Number
                 CustomTextField(
-                  hintText: "Type...",
+                  hintText: "Enter account number",
                   label: 'Account Number',
                   controller: _accountNumberController,
                   validator: _authController.validAccountNumber,
                 ),
 
-                /// Account Number
-                SizedBox(height: 20.h),
+                SizedBox(height: 24.h),
 
                 /// Buttons
                 AddCancelButton(
                   cancelText: 'Cancel',
                   addText: 'Add',
-                  cancelOnTap: () {
-                    Navigator.pop(context);
-                  },
+                  cancelOnTap: () => Navigator.pop(context),
                   addOnTap: () {
                     if (_formKey.currentState!.validate()) {
                       _accountController.addNewAccount(
                         groupIndex: accountIndex,
-                        name: _bankNameController.text,
-                        number: _accountNumberController.text,
-                        amount: double.parse(_amountController.text),
+                        name: _bankNameController.text.trim(),
+                        number: _accountNumberController.text.trim(),
+                        amount: double.parse(_amountController.text.trim()),
                       );
+                      Navigator.pop(context);
                     }
                   },
                 ),
@@ -129,6 +128,54 @@ class DialogBody extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// ================= Account Type UI =================
+class _AccountTypeCard extends StatelessWidget {
+  final String type;
+
+  const _AccountTypeCard({required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: Colors.blue.withOpacity(.08),
+        borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: Colors.blue.withOpacity(.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.account_balance_wallet_rounded,
+            color: Colors.blue,
+            size: 22.sp,
+          ),
+          SizedBox(width: 10.w),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Account Type",
+                style: GoogleFonts.poppins(
+                  fontSize: 12.sp,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              Text(
+                type,
+                style: GoogleFonts.poppins(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

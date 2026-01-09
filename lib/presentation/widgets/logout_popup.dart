@@ -23,18 +23,33 @@ class _LogoutDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.logout, size: 48.sp, color: Colors.orange),
+            /// Icon
+            Container(
+              padding: EdgeInsets.all(14.w),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.red.withOpacity(.1),
+              ),
+              child: Icon(
+                Icons.logout_rounded,
+                size: 36.sp,
+                color: Colors.red,
+              ),
+            ),
 
-            SizedBox(height: 12.h),
+            SizedBox(height: 16.h),
 
+            /// Title
             Text(
               "Logout",
               style: GoogleFonts.poppins(
@@ -45,37 +60,77 @@ class _LogoutDialog extends StatelessWidget {
 
             SizedBox(height: 8.h),
 
+            /// Description
             Text(
               "Are you sure you want to logout from this account?",
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 14.sp,
-                color: Colors.grey[700],
+                height: 1.4,
+                color: Colors.grey.shade700,
               ),
             ),
 
-            SizedBox(height: 20.h),
+            SizedBox(height: 24.h),
 
+            /// Buttons
             Row(
               children: [
+                /// Cancel Button
                 Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text("Cancel"),
+                  child: SizedBox(
+                    height: 44.h,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.grey.shade800,
+                        side: BorderSide(color: Colors.grey.shade300),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        "Cancel",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
+
                 SizedBox(width: 12.w),
+
+                /// Logout Button
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      onLogout();
-                    },
-                    child: const Text("Logout"),
+                  child: SizedBox(
+                    height: 44.h,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onLogout();
+                      },
+                      child: Text(
+                        "Logout",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
