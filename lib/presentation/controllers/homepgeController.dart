@@ -133,7 +133,7 @@ class AccountController extends GetxController {
         'Account deleted successfully',
       );
 
-      Get.to(BottomNavView());
+      Get.offAll(BottomNavView());
     } catch (e) {
       CustomSnackbar.showError(
         'Error',
