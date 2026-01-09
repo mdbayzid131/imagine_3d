@@ -17,6 +17,8 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final VoidCallback? onTap;
   final List<TextInputFormatter>? inputFormatters;
+  final String? errorText;
+
 
 
   const CustomTextField({
@@ -33,6 +35,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.keyboardType = TextInputType.text,
     this.onTap, this.inputFormatters,
+    this.errorText,
   });
 
   @override
@@ -57,6 +60,7 @@ class CustomTextField extends StatelessWidget {
 
         /// ================= TEXT FIELD =================
         TextFormField(
+          forceErrorText:errorText,
           controller: controller,
           validator: validator,
           obscureText: obscureText,

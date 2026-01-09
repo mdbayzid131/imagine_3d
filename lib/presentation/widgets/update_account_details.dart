@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controllers/auth_controller.dart';
+import '../controllers/homepgeController.dart';
 import 'add_cancle_buttom.dart';
 import 'custom_text_field.dart';
 
 class UpdateAccountDetails {
   /// Static method to trigger the popup correctly
-  static Future<void> showPopup(BuildContext context) {
+  static Future<void> showPopup({
+    required BuildContext context,
+    required String groupId,
+    required int accountIndex,
+  }) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const DialogBody(),
+      builder: (_) => DialogBody(groupId: groupId, accountIndex: accountIndex),
     );
   }
 }
 
 class DialogBody extends StatelessWidget {
-  const DialogBody({super.key});
+  final String groupId;
+  final int accountIndex;
+  DialogBody({super.key, required this.groupId, required this.accountIndex});
+  final TextEditingController _accountNumberController =
+      TextEditingController();
+  final TextEditingController _newBalanceController = TextEditingController();
+  final AuthController _authController = Get.find<AuthController>();
+  final controller = Get.put(AccountController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,47 +52,32 @@ class DialogBody extends StatelessWidget {
             /// Title
             Text(
               "Update Account Details",
-              style: GoogleFonts.poppins(fontSize: 18.sp, fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
 
             SizedBox(height: 16.h),
-
-            /// Bank Name
-            CustomTextField(hintText: "Type...", label: 'Account Type'),
-
-            SizedBox(height: 12.h),
-            CustomTextField(hintText: "****4521", label: 'Account Number'),
-
+            CustomTextField(
+              hintText: "****4521",
+              label: 'Account Number',
+              validator: _authController.validAccountNumber,
+              controller: _accountNumberController,
+            ),
             SizedBox(height: 5.h),
             Text(
               'Your full account number (will be masked for security)',
               style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
             ),
-
-            /// Amount
             SizedBox(height: 12.h),
-
-            CustomTextField(hintText: "021000021", label: 'Routing Number'),
-            SizedBox(height: 5.h),
-            Text(
-              '9-digit bank routing number (ABA number))',
-              style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
+            CustomTextField(
+              hintText: "\$000",
+              label: 'Balance',
+              validator: _authController.amountValidator,
+              controller: _newBalanceController,
             ),
-
-            /// Account Number
             SizedBox(height: 20.h),
-            CustomTextField(hintText: "Enter bank name", label: 'Bank Name'),
-
-            SizedBox(height: 5.h),
-            Text(
-              'Optional: Name of your bank or financial institution',
-              style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-            ),
-
-            /// Account Number
-            SizedBox(height: 20.h),
-
-            /// Buttons
             AddCancelButton(
               cancelText: 'Cancel',
               addText: 'Update Details',
@@ -86,6 +86,12 @@ class DialogBody extends StatelessWidget {
               },
               addOnTap: () {
                 Navigator.pop(context);
+                controller.updateAccountInfo(
+                  groupId: groupId,
+                  accountIndex: accountIndex,
+                  balance: double.parse(_newBalanceController.text),
+                  number: _accountNumberController.text,
+                );
               },
             ),
           ],
