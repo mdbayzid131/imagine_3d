@@ -88,16 +88,26 @@ class ActivityTabs extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final tx = controller.transactions[index];
 
-                  return _transactionTile(
-                    title: tx.title,
-                    amount: tx.amount,
-                    balance: "\$${tx.nowBalance.toStringAsFixed(2)}",
-                    date: tx.date.toDate(),
-                    context: context,
-                    groupId: groupId,
-                    index: accountIndex,
-                    accountName: accountName,
-                    newBalance: tx.nowBalance,
+                  return GestureDetector(
+                    onLongPress: () {
+                      TrensectionTapaAndHoldPopup.showPopup(
+                        context: context,
+                        title: tx.title,
+                        balance: tx.amount,
+                        date: _formatDate(tx.date.toDate()),
+                        groupId: groupId,
+                        index: index,
+                        accountName:
+                            accountName, // Pass the index of transaction
+                      );
+                    },
+                    child: _transactionTile(
+                      title: tx.title,
+                      amount: tx.amount,
+
+                      date: tx.date.toDate(),
+                      newBalance: tx.nowBalance,
+                    ),
                   );
                 },
               );
@@ -120,95 +130,77 @@ Widget _dateLabel(String text) {
 }
 
 Widget _transactionTile({
-  required String groupId,
   required String title,
   required double amount,
   required double newBalance,
-  required String balance,
   required DateTime date,
-  required BuildContext context,
-  required int index,
-  required String accountName,
 }) {
   final isExpense = amount < 0;
-  return GestureDetector(
-    onLongPress: () {
-      TrensectionTapaAndHoldPopup.showPopup(
-        context: context,
-        title: title,
-        balance: amount,
-        date: _formatDate(date),
-        groupId: groupId,
-        index: index,
-        accountName: accountName, // Pass the index of transaction
-      );
-    },
-    child: Card(
-      elevation: 0,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.r), // Responsive radius
-        side: BorderSide(
-          color: Colors.black12,
-          width: 1.w, // Responsive border width
+  return Card(
+    elevation: 0,
+    color: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.r), // Responsive radius
+      side: BorderSide(
+        color: Colors.black12,
+        width: 1.w, // Responsive border width
+      ),
+    ),
+    margin: EdgeInsets.only(bottom: 10.h), // Responsive margin
+    child: ListTile(
+      // Leading icon with responsive size
+      leading: CircleAvatar(
+        radius: 20.r, // Responsive radius
+        backgroundColor: isExpense
+            ? Colors.red.shade100
+            : Colors.green.shade100,
+        child: Icon(
+          isExpense ? Icons.arrow_upward : Icons.arrow_downward,
+          color: isExpense ? Colors.red : Colors.green,
+          size: 22.sp, // Responsive icon
         ),
       ),
-      margin: EdgeInsets.only(bottom: 10.h), // Responsive margin
-      child: ListTile(
-        // Leading icon with responsive size
-        leading: CircleAvatar(
-          radius: 20.r, // Responsive radius
-          backgroundColor: isExpense
-              ? Colors.red.shade100
-              : Colors.green.shade100,
-          child: Icon(
-            isExpense ? Icons.arrow_upward : Icons.arrow_downward,
-            color: isExpense ? Colors.red : Colors.green,
-            size: 22.sp, // Responsive icon
+
+      /// Transaction Title
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 14.sp, // Responsive font
+        ),
+      ),
+
+      /// Subtitle: Account Name + Date
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 2.h), // Responsive spacing
+          Text(
+            _formatDate(date),
+            style: TextStyle(fontSize: 12.sp), // Responsive font
           ),
-        ),
+        ],
+      ),
 
-        /// Transaction Title
-        title: Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 14.sp, // Responsive font
+      /// Trailing: Amount
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            "\$${isExpense ? '-' : ''}${amount.abs()}",
+            style: GoogleFonts.poppins(
+              color: isExpense ? Colors.red : Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp, // Responsive font
+            ),
           ),
-        ),
-
-        /// Subtitle: Account Name + Date
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 2.h), // Responsive spacing
-            Text(
-              _formatDate(date),
-              style: TextStyle(fontSize: 12.sp), // Responsive font
-            ),
-          ],
-        ),
-
-        /// Trailing: Amount
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              "\$${isExpense ? '-' : ''}${amount.abs()}",
-              style: GoogleFonts.poppins(
-                color: isExpense ? Colors.red : Colors.green,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp, // Responsive font
-              ),
-            ),
-            SizedBox(height: 2.h), // Responsive spacing
-            Text(
-              "\$$newBalance",
-              style: GoogleFonts.poppins(fontSize: 12.sp),
-            ), // Responsive")
-          ],
-        ),
+          SizedBox(height: 2.h), // Responsive spacing
+          Text(
+            "\$$newBalance",
+            style: GoogleFonts.poppins(fontSize: 12.sp),
+          ), // Responsive")
+        ],
       ),
     ),
   );

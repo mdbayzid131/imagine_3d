@@ -16,6 +16,7 @@
 // import '../widgets/email_verify_popup.dart';
 //
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -97,12 +98,13 @@ class AuthController extends GetxController {
       );
 
       await user.reauthenticateWithCredential(credential);
+      CustomSnackbar.showSuccess('Success', 'Password updated successfully');
+      Navigator.pop(Get.context!);
+
 
       // 🔁 Update password
       await user.updatePassword(newPassword);
 
-      CustomSnackbar.showSuccess('Success', 'Password updated successfully');
-      Get.back();
     } on FirebaseAuthException catch (e) {
       print(e.code);
       if (e.code == 'invalid-credential') {

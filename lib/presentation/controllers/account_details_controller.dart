@@ -117,18 +117,6 @@ class CardDetailsController extends GetxController {
   }
 
 
-  /*  void updateTransaction(String groupId, int index, String title, double amount, DateTime date) {
-    final oldTx = transactions[index];
-    transactions[index] = TransactionModel(
-      title: title,
-      amount: amount,
-      nowBalance: oldTx.nowBalance, // optional recalc if needed
-      date: Timestamp.fromDate(date),
-      accountName: oldTx.accountName,
-    );
-
-    // Firebase update logic here
-  }*/
 
   void updateTransaction({
     required String groupId,
@@ -139,48 +127,72 @@ class CardDetailsController extends GetxController {
     required DateTime newDate,
   }) async {
     try {
-      final docRef =
-      FirebaseFirestore.instance.collection('account_groups').doc(groupId);
-
+      final docRef = FirebaseFirestore.instance.collection('account_groups').doc(groupId);
       final doc = await docRef.get();
       if (!doc.exists) return;
 
-      List accounts = List.from(doc['accounts']);
+      // 1️⃣ Read accounts safely
+      List<Map<String, dynamic>> accounts = List<Map<String, dynamic>>.from(
+          (doc.get('accounts') as List).map((e) => Map<String, dynamic>.from(e))
+      );
 
-      // 🔍 Find account
-      for (var account in accounts) {
+      // 2️⃣ Find account
+      for (int i = 0; i < accounts.length; i++) {
+        var account = accounts[i];
         if (account['name'] == accountName) {
-          List txList = List.from(account['transactions']);
 
-          // 📝 Update transaction
+          // 3️⃣ Transactions list safely
+          List<Map<String, dynamic>> txList = List<Map<String, dynamic>>.from(
+              (account['transactions'] as List).map((e) => Map<String, dynamic>.from(e))
+          );
+
+          // 4️⃣ Old transaction amount
+          double oldAmount = (txList[index]['amount'] ?? 0).toDouble();
+
+          // 5️⃣ Update transaction
           txList[index] = {
+            ...txList[index],
             'title': newTitle,
             'amount': newAmount,
             'date': newDate,
-            'nowBalance': txList[index]['nowBalance'], // keep old balance if needed
           };
 
           account['transactions'] = txList;
+
+          // 6️⃣ Adjust main balance
+          account['amount'] = (account['amount'] ?? 0) - oldAmount + newAmount;
+
+          accounts[i] = account;
+          break;
         }
       }
 
-      // 🔥 Firestore update
+      // 7️⃣ Firestore update
       await docRef.update({'accounts': accounts});
 
-      // 🔄 Local update (RxList)
+      // 8️⃣ Local RxList update
       transactions[index] = transactions[index].copyWith(
         title: newTitle,
         amount: newAmount,
         date: Timestamp.fromDate(newDate),
       );
 
+      // 9️⃣ Update local account
+      account.update((acc) {
+        acc!.transactions[index] = transactions[index];
+        acc.amount = accounts.firstWhere((a) => a['name'] == accountName)['amount'];
+      });
+
       Get.back();
-      Get.snackbar("Success", "Transaction updated");
+      Get.snackbar("Success", "Transaction and account balance updated");
     } catch (e) {
       print("Update failed: $e");
       Get.snackbar("Error", "Failed to update transaction");
     }
   }
+
+
+
 
 
 

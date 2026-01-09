@@ -228,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                 final accName = accItem.name;
 
 
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Get.to(
                       () => CardDetailsPage(),
