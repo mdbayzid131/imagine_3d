@@ -32,6 +32,8 @@ class DialogBody extends StatefulWidget {
 class _DialogBodyState extends State<DialogBody> {
   final TextEditingController titleCtrl = TextEditingController();
   final TextEditingController amountCtrl = TextEditingController();
+  final TextEditingController dateCtrl = TextEditingController();
+
   DateTime selectedDate = DateTime.now();
 
   final _showTitleError = false.obs;
@@ -41,7 +43,14 @@ class _DialogBodyState extends State<DialogBody> {
   void dispose() {
     titleCtrl.dispose();
     amountCtrl.dispose();
+    dateCtrl.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dateCtrl.text = _formatDate(selectedDate);
   }
 
   @override
@@ -93,13 +102,19 @@ class _DialogBodyState extends State<DialogBody> {
             SizedBox(height: 12.h),
 
             /// Date picker
+            /// Date picker
             GestureDetector(
               onTap: _pickDate,
-              child: CustomTextField(
-                label: 'Date',
-                hintText: "${selectedDate.toLocal()}".split(' ')[0],
+              child: AbsorbPointer(
+                child: CustomTextField(
+                  label: 'Date',
+                  controller: dateCtrl,
+                  hintText: 'Select date',
+                  suffixIcon: Icon(Icons.calendar_month_rounded, size: 20.sp),
+                ),
               ),
             ),
+
             SizedBox(height: 20.h),
 
             /// Buttons
@@ -147,10 +162,38 @@ class _DialogBodyState extends State<DialogBody> {
       initialDate: selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.deepPurple, // header + selected date
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(foregroundColor: Colors.deepPurple),
+            ),
+            dialogTheme: DialogThemeData(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null) {
-      setState(() => selectedDate = picked);
+      setState(() {
+        selectedDate = picked;
+        dateCtrl.text = _formatDate(picked);
+      });
     }
+  }
+
+  String _formatDate(DateTime date) {
+    return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
   }
 }

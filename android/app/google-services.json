@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "595561625334",
+    "project_id": "imagine-3d-37f88",
+    "storage_bucket": "imagine-3d-37f88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595561625334:android:cc5b5cfb9da610375a9ed7",
+        "android_client_info": {
+          "package_name": "com.example.imagine_3d"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC09YVtIw4NM3g6BRLFn_eyRqHTzJrMKN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../widgets/custom_snackbar.dart';
@@ -34,9 +35,11 @@ class ProfileController extends GetxController {
 
       name.value = FirebaseAuth.instance.currentUser!.displayName ?? newName;
       Get.back();
-      Get.snackbar('Success', 'Name updated successfully');
+      Get.back();
+      CustomSnackbar.showSuccess('Success', 'Name updated successfully');
+
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update name');
+      CustomSnackbar.showError('Error', "Failed to update name");
     } finally {
       isLoading.value = false;
     }
@@ -46,6 +49,7 @@ class ProfileController extends GetxController {
   Future<void> updateEmail({
     required String newEmail,
     required String password,
+    required BuildContext context,
   }) async {
     try {
       isLoading.value = true;
@@ -74,7 +78,7 @@ class ProfileController extends GetxController {
 
       /// ✅ Delay then back
       await Future.delayed(const Duration(seconds: 2));
-      Get.back();
+      Navigator.pop(context);
 
     } on FirebaseAuthException catch (e) {
       CustomSnackbar.showError('Error', _firebaseError(e.code));

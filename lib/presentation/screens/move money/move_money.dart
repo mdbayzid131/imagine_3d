@@ -30,8 +30,8 @@ class MoveMoneyScreen extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w), // Responsive padding
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,14 +66,18 @@ class MoveMoneyScreen extends StatelessWidget {
               }
 
               // List of all transactions
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.transactions.length,
-                itemBuilder: (context, index) {
-                  final tx = controller.transactions[index];
-                  return _TransactionTile(tx: tx);
-                },
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: controller.transactions.length,
+                    itemBuilder: (context, index) {
+                      final tx = controller.transactions[index];
+                      return _TransactionTile(tx: tx);
+                    },
+                  ),
+                ),
               );
             }),
           ],

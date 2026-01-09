@@ -78,6 +78,7 @@ void showUpdateEmailDialog(BuildContext context, ProfileController controller) {
                     controller.updateEmail(
                       newEmail: emailCtrl.text.trim(),
                       password: passCtrl.text.trim(),
+                      context: context,
                     );
                   },
 
@@ -125,6 +126,9 @@ class ActionButtons extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onCancel,
             style: ElevatedButton.styleFrom(
+              elevation: 0.5,
+              splashFactory: NoSplash.splashFactory,
+              shadowColor: Colors.transparent,
               backgroundColor: const Color(0xffF3F4F6),
               foregroundColor: Colors.black,
               shape: RoundedRectangleBorder(
@@ -146,6 +150,9 @@ class ActionButtons extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onSave, // ✅ now works
             style: ElevatedButton.styleFrom(
+              elevation: 0.5,
+              splashFactory: NoSplash.splashFactory,
+              shadowColor: Colors.transparent,
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
