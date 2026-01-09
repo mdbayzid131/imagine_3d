@@ -1,117 +1,155 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:imagine_3d/presentation/widgets/transaction_edit_eage.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:imagine_3d/presentation/widgets/add_cancle_buttom.dart';
+import 'package:imagine_3d/presentation/widgets/custom_text_field.dart';
 
-import 'add_cancle_buttom.dart';
-import 'custom_text_field.dart';
+import '../controllers/account_details_controller.dart';
 
 class TrensectionTapaAndHoldPopup {
-  /// Static method to trigger the popup correctly
-  static Future<void> showPopup(BuildContext context) {
-    return showDialog(
+  static void showPopup({
+    required BuildContext context,
+    required String title,
+    required double balance,
+    required String date,
+    required String groupId,
+    required int index, // transaction index
+    required String accountName,
+  }) {
+    final controller = Get.find<CardDetailsController>();
+
+    showModalBottomSheet(
       context: context,
-      barrierDismissible: true,
-      builder: (_) => const DialogBody(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (_) {
+        return Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Transaction Options",
+                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 12.h),
+              ListTile(
+                leading: Icon(Icons.edit),
+                title: Text("Edit Transaction"),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showEditDialog(
+                    context,
+                    controller,
+                    groupId,
+                    index,
+                    accountName,
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.delete),
+                title: Text("Delete Transaction"),
+                onTap: () {
+                  Navigator.pop(context);
+                  controller.deleteTransaction(groupId, index, accountName);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
-}
 
-class DialogBody extends StatelessWidget {
-  const DialogBody({super.key});
+  static void _showEditDialog(
+    BuildContext context,
+    CardDetailsController controller,
+    String groupId,
+    int index,
+    String accountName,
+  ) {
+    final tx = controller.transactions[index];
+    final titleController = TextEditingController(text: tx.title);
+    final amountController = TextEditingController(text: tx.amount.toString());
+    DateTime selectedDate = tx.date.toDate();
 
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Container(
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14.r),
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: Colors.white, // ✅ white color
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r), // ✅ smooth shape
         ),
-        child: Column(
+        title: Text(
+          "Edit Transaction",
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+        ),
+        content: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: .spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  child: Text(
-                    'Monday December 22, 2025',
-                    style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-                  ),
-                ),
-
-
-
-                PopupMenuButton<String>(
-                  icon: Icon(Icons.more_vert, size: 20.sp),
-                  color: Colors.white,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-
-                  itemBuilder: (context) => [
-                    const PopupMenuItem<String>(
-                      value: 'Edit',
-                      child: Text('Edit'),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'Delete',
-                      child: Text('Delete'),
-                    ),
-                  ],
-                  onSelected: (String value) {
-                    if (value == 'Edit') {
-
-                      TransactionEditEage.showPopup(context);
-                    } else if (value == 'Delete') {
-                    }
-                  },
-                ),
-
-              ],
+            CustomTextField(
+              controller: titleController,
+              hintText: '',
+              label: 'Title',
             ),
-            SizedBox(height: 10.h),
-
+            SizedBox(height: 12.h),
+            CustomTextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              hintText: '',
+              label: "Amount",
+            ),
+            SizedBox(height: 16.h),
             Row(
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'SAVE ON FOODS#_F',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        '-\$15.00',
-                        style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
                 Text(
-                  '\$6,488.32',
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  "Date: ${_formatDate(selectedDate)}",
+                  style: TextStyle(fontSize: 13.sp),
+                ),
+                Spacer(),
+                TextButton(
+                  onPressed: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+                    if (picked != null) selectedDate = picked;
+                  },
+                  child: Text("Change"),
                 ),
               ],
             ),
           ],
         ),
+        actionsPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+        actions: [
+          AddCancelButton(
+            cancelText: 'Cancel',
+            addText: 'Save',
+            cancelOnTap: () => Navigator.pop(context),
+            addOnTap: () {
+              controller.updateTransaction(
+                groupId: groupId,
+                accountName: accountName,
+                index: index,
+                newTitle: titleController.text,
+                newAmount: double.parse(amountController.text),
+                newDate: selectedDate,
+              );
+            },
+          ),
+          SizedBox(height: 12.h),
+        ],
       ),
     );
+  }
+
+  static String _formatDate(DateTime date) {
+    return "${date.day}-${date.month}-${date.year}";
   }
 }

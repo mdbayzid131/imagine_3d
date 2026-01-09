@@ -225,6 +225,8 @@ class HomeScreen extends StatelessWidget {
               ...group.accounts.asMap().entries.map((entry) {
                 final accIndex = entry.key;
                 final accItem = entry.value;
+                final accName = accItem.name;
+
 
                 return GestureDetector(
                   onTap: () {
@@ -233,6 +235,7 @@ class HomeScreen extends StatelessWidget {
                       arguments: {
                         'groupId': group.id,
                         'accountIndex': accIndex,
+                        'accountName': accName,
                       },
                     );
                   },

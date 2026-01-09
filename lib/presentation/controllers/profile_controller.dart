@@ -55,7 +55,7 @@ class ProfileController extends GetxController {
         throw 'User not logged in';
       }
 
-      /// 🔐 Re-authentication (REQUIRED)
+      /// 🔐 Re-authentication
       final credential = EmailAuthProvider.credential(
         email: user.email!,
         password: password,
@@ -63,14 +63,19 @@ class ProfileController extends GetxController {
 
       await user.reauthenticateWithCredential(credential);
 
-      /// ✅ NEW METHOD (Firebase v4+)
+      /// ✅ Firebase v4+
       await user.verifyBeforeUpdateEmail(newEmail);
 
+      /// ✅ Snackbar first
       CustomSnackbar.showSuccess(
         'Verify Email',
         'Verification email sent to $newEmail',
       );
+
+      /// ✅ Delay then back
+      await Future.delayed(const Duration(seconds: 2));
       Get.back();
+
     } on FirebaseAuthException catch (e) {
       CustomSnackbar.showError('Error', _firebaseError(e.code));
     } catch (e) {
@@ -79,6 +84,7 @@ class ProfileController extends GetxController {
       isLoading.value = false;
     }
   }
+
 
   String _firebaseError(String code) {
     switch (code) {

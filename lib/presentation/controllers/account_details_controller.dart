@@ -74,4 +74,115 @@ class CardDetailsController extends GetxController {
         .doc(groupId)
         .update({'accounts': group.accounts.map((e) => e.toMap()).toList()});
   }
+
+
+
+  void deleteTransaction(String groupId, int index, String accountName) async {
+    try {
+      final tx = transactions[index];
+
+      final docRef = FirebaseFirestore.instance.collection('account_groups').doc(groupId);
+      final docSnapshot = await docRef.get();
+
+      if (!docSnapshot.exists) return;
+
+      // 1️⃣ Read accounts
+      List accounts = List.from(docSnapshot.get('accounts'));
+
+      // 2️⃣ Find the account
+      for (var account in accounts) {
+        if (account['name'] == accountName) {
+          List transactionsList = List.from(account['transactions']);
+
+          // Remove the transaction by matching title, date, amount
+          transactionsList.removeWhere((t) =>
+          t['title'] == tx.title &&
+              t['amount'] == tx.amount &&
+              t['date'] == tx.date &&
+              t['nowBalance'] == tx.nowBalance);
+
+          account['transactions'] = transactionsList;
+        }
+      }
+
+      // 3️⃣ Update Firestore
+      await docRef.update({'accounts': accounts});
+
+      // 4️⃣ Local remove
+      transactions.removeAt(index); // RxList → UI auto refresh
+    } catch (e) {
+      print("Delete failed: $e");
+      Get.snackbar("Error", "Failed to delete transaction");
+    }
+  }
+
+
+  /*  void updateTransaction(String groupId, int index, String title, double amount, DateTime date) {
+    final oldTx = transactions[index];
+    transactions[index] = TransactionModel(
+      title: title,
+      amount: amount,
+      nowBalance: oldTx.nowBalance, // optional recalc if needed
+      date: Timestamp.fromDate(date),
+      accountName: oldTx.accountName,
+    );
+
+    // Firebase update logic here
+  }*/
+
+  void updateTransaction({
+    required String groupId,
+    required String accountName,
+    required int index, // local transactions index
+    required String newTitle,
+    required double newAmount,
+    required DateTime newDate,
+  }) async {
+    try {
+      final docRef =
+      FirebaseFirestore.instance.collection('account_groups').doc(groupId);
+
+      final doc = await docRef.get();
+      if (!doc.exists) return;
+
+      List accounts = List.from(doc['accounts']);
+
+      // 🔍 Find account
+      for (var account in accounts) {
+        if (account['name'] == accountName) {
+          List txList = List.from(account['transactions']);
+
+          // 📝 Update transaction
+          txList[index] = {
+            'title': newTitle,
+            'amount': newAmount,
+            'date': newDate,
+            'nowBalance': txList[index]['nowBalance'], // keep old balance if needed
+          };
+
+          account['transactions'] = txList;
+        }
+      }
+
+      // 🔥 Firestore update
+      await docRef.update({'accounts': accounts});
+
+      // 🔄 Local update (RxList)
+      transactions[index] = transactions[index].copyWith(
+        title: newTitle,
+        amount: newAmount,
+        date: Timestamp.fromDate(newDate),
+      );
+
+      Get.back();
+      Get.snackbar("Success", "Transaction updated");
+    } catch (e) {
+      print("Update failed: $e");
+      Get.snackbar("Error", "Failed to update transaction");
+    }
+  }
+
+
+
+
 }

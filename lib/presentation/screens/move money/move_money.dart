@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_color.dart';
+import '../../../data/models/unified_transaction_model.dart';
 import '../../controllers/all_transaction_controller.dart';
 import '../../widgets/custom_appbar.dart';
+
 class MoveMoneyScreen extends StatelessWidget {
-   MoveMoneyScreen({super.key});
-  final controller = Get.put(AllTransactionController());
+  MoveMoneyScreen({super.key});
+
+  // Controller to manage transactions
+  final controller = Get.put(TransactionController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class MoveMoneyScreen extends StatelessWidget {
         title: Text(
           "Move Money",
           style: GoogleFonts.poppins(
-            fontSize: 20.sp,
+            fontSize: 20.sp, // Responsive font size
             fontWeight: FontWeight.w500,
             height: 1.4,
             color: AppColors.textColor,
@@ -29,99 +31,51 @@ class MoveMoneyScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w), // Responsive padding
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10.h,),
-            /// Header
+            SizedBox(height: 10.h), // Responsive spacing
+
+            /// Header Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "All Transactions",
                   style: GoogleFonts.poppins(
-                    fontSize: 20.sp,
+                    fontSize: 20.sp, // Responsive font
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
             ),
 
-            SizedBox(height: 12.h),
+            SizedBox(height: 12.h), // Responsive spacing
 
             /// Transaction List
-            _dateLabel("Monday December 22, 2025"),
-            _transactionTile(
-              title: "SAVE ON FOODS#_F",
-              amount: "-\$15.00",
-              balance: "Chase Checking",
-            ),
-        Obx(() {
-          final grouped =
-          groupByDate(controller.allTransactions);
-
-          if (grouped.isEmpty) {
-            return const Center(child: Text("No transactions"));
-          }
-
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: grouped.entries.map((entry) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// 📅 Date Header
-                  Text(
-                    entry.key,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
+            Obx(() {
+              // Show placeholder if no transactions
+              if (controller.transactions.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No transactions",
+                    style: TextStyle(fontSize: 14.sp), // Responsive text
                   ),
-                  const SizedBox(height: 8),
+                );
+              }
 
-                  /// Transactions
-                  ...entry.value.map((tx) {
-
-
-                    return ListTile(
-                      title: Text(tx.title),
-                      subtitle:
-                      Text("${tx.accountName} • ${tx.groupTitle}"),
-                      trailing: Text(
-                        tx.amount < 0
-                            ? "-\$${tx.amount.abs()}"
-                            : "+\$${tx.amount}",
-                        style: TextStyle(
-                          color: tx.amount < 0
-                              ? Colors.red
-                              : Colors.green,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-
-                    );
-
-                    // _transactionTile(
-                    //   title: "SAVE ON FOODS#_F",
-                    //   amount: "-\$15.00",
-                    //   balance: "Chase Checking",
-                    // );
-
-
-
-                  }).toList(),
-
-                  const SizedBox(height: 20),
-                ],
+              // List of all transactions
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.transactions.length,
+                itemBuilder: (context, index) {
+                  final tx = controller.transactions[index];
+                  return _TransactionTile(tx: tx);
+                },
               );
-            }).toList(),
-          );
-        })
-
-
-
+            }),
           ],
         ),
       ),
@@ -129,59 +83,85 @@ class MoveMoneyScreen extends StatelessWidget {
   }
 }
 
-Widget _dateLabel(String text) {
-  return Padding(
-    padding: EdgeInsets.symmetric(vertical: 8.h),
-    child: Text(
-      text,
-      style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-    ),
-  );
-}
+class _TransactionTile extends StatelessWidget {
+  final AllTransactionModel tx;
 
-Widget _transactionTile({
-  required String title,
-  required String amount,
-  required String balance,
-}) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 8.h),
-    padding: EdgeInsets.all(12.w),
-    decoration: BoxDecoration(
+  const _TransactionTile({required this.tx});
+
+  @override
+  Widget build(BuildContext context) {
+    final isExpense = tx.amount < 0;
+
+    return Card(
+      elevation: 0,
       color: Colors.white,
-      borderRadius: BorderRadius.circular(10.r),
-      border: Border.all(color: Colors.black12),
-    ),
-    child: Row(
-      crossAxisAlignment: .start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                balance,
-                style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.grey),
-              ),
-            ],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r), // Responsive radius
+        side: BorderSide(
+          color: Colors.black12,
+          width: 1.w, // Responsive border width
+        ),
+      ),
+      margin: EdgeInsets.only(bottom: 10.h), // Responsive margin
+      child: ListTile(
+        // Leading icon with responsive size
+        leading: CircleAvatar(
+          radius: 20.r, // Responsive radius
+          backgroundColor:
+          isExpense ? Colors.red.shade100 : Colors.green.shade100,
+          child: Icon(
+            isExpense ? Icons.arrow_upward : Icons.arrow_downward,
+            color: isExpense ? Colors.red : Colors.green,
+            size: 22.sp, // Responsive icon
           ),
         ),
-        Text(
-          amount,
-          style: GoogleFonts.poppins(
-            fontSize: 14.sp,
+
+        /// Transaction Title
+        title: Text(
+          tx.title,
+          style: TextStyle(
             fontWeight: FontWeight.w600,
+            fontSize: 14.sp, // Responsive font
           ),
         ),
-      ],
-    ),
-  );
+
+        /// Subtitle: Account Name + Date
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              tx.accountName,
+              style: TextStyle(fontSize: 12.sp), // Responsive font
+            ),
+            SizedBox(height: 2.h), // Responsive spacing
+            Text(
+              _formatDate(tx.date),
+              style: TextStyle(fontSize: 12.sp), // Responsive font
+            ),
+          ],
+        ),
+
+        /// Trailing: Amount
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              "${isExpense ? '-' : '+'}${tx.amount.abs()}",
+              style: TextStyle(
+                color: isExpense ? Colors.red : Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.sp, // Responsive font
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Format date to DD-MM-YYYY
+  String _formatDate(DateTime date) {
+    return "${date.day}-${date.month}-${date.year}";
+  }
 }
