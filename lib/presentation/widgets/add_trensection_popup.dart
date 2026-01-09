@@ -71,7 +71,7 @@ class _DialogBodyState extends State<DialogBody> {
 
             /// Title
             Obx(
-                  () => CustomTextField(
+              () => CustomTextField(
                 label: 'Title',
                 hintText: "Type...",
                 controller: titleCtrl,
@@ -82,7 +82,7 @@ class _DialogBodyState extends State<DialogBody> {
 
             /// Amount
             Obx(
-                  () => CustomTextField(
+              () => CustomTextField(
                 label: 'Amount',
                 hintText: "Type...",
                 keyboardType: TextInputType.number,
@@ -98,7 +98,6 @@ class _DialogBodyState extends State<DialogBody> {
               child: CustomTextField(
                 label: 'Date',
                 hintText: "${selectedDate.toLocal()}".split(' ')[0],
-                readOnly: true,
               ),
             ),
             SizedBox(height: 20.h),
@@ -137,11 +136,7 @@ class _DialogBodyState extends State<DialogBody> {
 
     if (hasError) return; // Don't submit if error exists
 
-    widget.onSubmit(
-      title,
-      double.parse(amountText),
-      selectedDate,
-    );
+    widget.onSubmit(title, double.parse(amountText), selectedDate);
 
     Navigator.pop(context);
   }
