@@ -1,21 +1,17 @@
-class GlobalTransaction {
-  final String groupId;
-  final String groupTitle;
-  final int accountIndex;
-  final String accountName;
-  final String accountNumber;
+class AllTransactionModel {
   final String title;
   final double amount;
   final DateTime date;
+  final double nowBalance;
+  final String accountName;
+  final String groupTitle;
 
-  GlobalTransaction({
-    required this.groupId,
-    required this.groupTitle,
-    required this.accountIndex,
-    required this.accountName,
-    required this.accountNumber,
+  AllTransactionModel({
     required this.title,
     required this.amount,
     required this.date,
+    required this.nowBalance,
+    required this.accountName,
+    required this.groupTitle,
   });
 }

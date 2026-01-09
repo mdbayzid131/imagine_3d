@@ -4,6 +4,7 @@ import '../../data/models/account_group_model.dart';
 import '../../services/account_service.dart';
 import '../screens/buttomNabBar_screen/bottom_nab_bar_screen.dart';
 import '../widgets/custom_snackbar.dart';
+import 'all_transaction_controller.dart';
 
 class AccountController extends GetxController {
   final AccountService _service = AccountService();
@@ -48,10 +49,16 @@ class AccountController extends GetxController {
   // =============================
   void fetchAccountGroups() {
     isLoading.value = true;
+
     try {
       _service.getAccountGroups().listen(
             (data) {
           accountGroups.value = data;
+
+          // 🔥 Load transactions **after data has arrived**
+          final txController = Get.find<TransactionController>();
+          txController.loadTransactions(data);
+
           isLoading.value = false;
         },
         onError: (e) {

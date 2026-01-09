@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'add_cancle_buttom.dart';
@@ -32,6 +34,9 @@ class _DialogBodyState extends State<DialogBody> {
   final TextEditingController amountCtrl = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
+  final _showTitleError = false.obs;
+  final _showAmountError = false.obs;
+
   @override
   void dispose() {
     titleCtrl.dispose();
@@ -62,26 +67,29 @@ class _DialogBodyState extends State<DialogBody> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             SizedBox(height: 16.h),
 
             /// Title
-            CustomTextField(
-              label: 'Title',
-              hintText: "Type...",
-              controller: titleCtrl,
+            Obx(
+                  () => CustomTextField(
+                label: 'Title',
+                hintText: "Type...",
+                controller: titleCtrl,
+                errorText: _showTitleError.value ? 'Title is required' : null,
+              ),
             ),
-
             SizedBox(height: 12.h),
 
             /// Amount
-            CustomTextField(
-              label: 'Amount',
-              hintText: "Type...",
-              keyboardType: TextInputType.number,
-              controller: amountCtrl,
+            Obx(
+                  () => CustomTextField(
+                label: 'Amount',
+                hintText: "Type...",
+                keyboardType: TextInputType.number,
+                controller: amountCtrl,
+                errorText: _showAmountError.value ? 'Amount is required' : null,
+              ),
             ),
-
             SizedBox(height: 12.h),
 
             /// Date picker
@@ -90,10 +98,9 @@ class _DialogBodyState extends State<DialogBody> {
               child: CustomTextField(
                 label: 'Date',
                 hintText: "${selectedDate.toLocal()}".split(' ')[0],
-                readOnly: false,
+                readOnly: true,
               ),
             ),
-
             SizedBox(height: 20.h),
 
             /// Buttons
@@ -110,11 +117,29 @@ class _DialogBodyState extends State<DialogBody> {
   }
 
   void _submit() {
-    if (titleCtrl.text.isEmpty || amountCtrl.text.isEmpty) return;
+    final title = titleCtrl.text.trim();
+    final amountText = amountCtrl.text.trim();
+    bool hasError = false;
+
+    if (title.isEmpty) {
+      _showTitleError.value = true;
+      hasError = true;
+    } else {
+      _showTitleError.value = false;
+    }
+
+    if (amountText.isEmpty) {
+      _showAmountError.value = true;
+      hasError = true;
+    } else {
+      _showAmountError.value = false;
+    }
+
+    if (hasError) return; // Don't submit if error exists
 
     widget.onSubmit(
-      titleCtrl.text.trim(),
-      double.parse(amountCtrl.text),
+      title,
+      double.parse(amountText),
       selectedDate,
     );
 

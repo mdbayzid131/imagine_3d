@@ -23,6 +23,7 @@ class CardDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
 final args = Get.arguments;
 final groupId = args['groupId'];
+final accountName = args['accountName'];
 final accountIndex = args['accountIndex'];
     return DefaultTabController(
       length: 3,
@@ -111,7 +112,7 @@ final accountIndex = args['accountIndex'];
             /// Tab Views
             Expanded(
               child: TabBarView(
-                children: [ActivityTabs(), DetailsTab(), ManageAccountBody(groupID: groupId, accountIndex: accountIndex,)],
+                children: [ActivityTabs(groupId: groupId, accountIndex: accountIndex, accountName: accountName,), DetailsTab(), ManageAccountBody(groupID: groupId, accountIndex: accountIndex,)],
               ),
             ),
           ],
