@@ -202,8 +202,8 @@ class AuthController extends GetxController {
 
     final cleaned = value.trim();
 
-    // only number with optional 2 decimal
-    final regex = RegExp(r'^\d+(\.\d{1,2})?$');
+    // number with optional 2 decimal (allow negative too)
+    final regex = RegExp(r'^-?\d+(\.\d{1,2})?$');
 
     if (!regex.hasMatch(cleaned)) {
       return 'Enter a valid amount';
@@ -215,12 +215,10 @@ class AuthController extends GetxController {
       return 'Invalid number format';
     }
 
-    if (amount <= 0) {
-      return 'Amount must be greater than 0';
-    }
-
-    return null; // ✅ valid
+    // ✅ এখন আর amount <= 0 চেক নেই
+    return null; // সব valid
   }
+
 
   //
   //   // ------------------------------------------------------------------
