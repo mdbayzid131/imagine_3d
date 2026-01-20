@@ -13,54 +13,50 @@ class BottomNavView extends StatelessWidget {
     final controller = Get.put(BottomNavController());
 
     return Scaffold(
-      body: Obx(
-            () => controller.screens[controller.currentIndex.value]
-      ),
+      body: Obx(() => controller.screens[controller.currentIndex.value]),
 
       bottomNavigationBar: Obx(
-            () => Container(
-          height: 72.h,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10.r,
-              ),
-            ],
+        () => SafeArea(
+          child: Container(
+            height: 72.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10.r)],
+            ),
+          
+            ///<================================== BOTTOM NAV BAR ========================>///
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _navItem(
+                  icon: Icons.home_outlined,
+                  label: "Home",
+                  index: 0,
+                  controller: controller,
+                ),
+                _navItem(
+                  icon: Icons.credit_card_outlined,
+                  label: "Accounts",
+                  index: 1,
+                  controller: controller,
+                ),
+                _navItem(
+                  icon: Icons.swap_horiz,
+                  label: "Move Money",
+                  index: 2,
+                  controller: controller,
+                ),
+                _navItem(
+                  icon: Icons.menu,
+                  label: "More",
+                  index: 3,
+                  controller: controller,
+                ),
+              ],
+            ),
+          
+            ///<================================== END NAV BAR ========================>///
           ),
-
-          ///<================================== BOTTOM NAV BAR ========================>///
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _navItem(
-                icon: Icons.home_outlined,
-                label: "Home",
-                index: 0,
-                controller: controller,
-              ),
-              _navItem(
-                icon: Icons.credit_card_outlined,
-                label: "Accounts",
-                index: 1,
-                controller: controller,
-              ),
-              _navItem(
-                icon: Icons.swap_horiz,
-                label: "Move Money",
-                index: 2,
-                controller: controller,
-              ),
-              _navItem(
-                icon: Icons.menu,
-                label: "More",
-                index: 3,
-                controller: controller,
-              ),
-            ],
-          ),
-          ///<================================== END NAV BAR ========================>///
         ),
       ),
     );
@@ -98,5 +94,6 @@ class BottomNavView extends StatelessWidget {
       ),
     );
   }
-///<================================== END ITEM ========================>///
+
+  ///<================================== END ITEM ========================>///
 }

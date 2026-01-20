@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="imagine_3d"
+        android:label="Imagine 3D"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
